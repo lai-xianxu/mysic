@@ -1,17 +1,19 @@
 <template>
   <div class="songs-container">
-    <div class="tab-bar">
-      <span class="item active">全部</span>
-      <span class="item">华语</span>
-      <span class="item">欧美</span>
-      <span class="item">日本</span>
-      <span class="item">韩国</span>
+    <div class="tab-bar fsc mt10">
+      <span
+        class="item"
+        v-for="(item,index) in typeList"
+        :key="item.id"
+        @click="tabChange(item,index)"
+        :class="{'active': index == activeIndex}"
+      >{{item.name}}</span>
     </div>
     <!-- 底部的table -->
-    <table class="el-table playlit-table">
-      <thead>
-        <th></th>
-        <th></th>
+    <table class="el-table playlit-table mt15 ovh">
+      <thead class="thead_box">
+        <th>#</th>
+        <th>封面</th>
         <th>音乐标题</th>
         <th>歌手</th>
         <th>专辑</th>
@@ -19,25 +21,31 @@
       </thead>
       <tbody>
         <tr
-          class="el-table__row"
+          class="el-table__row tr_song"
           v-for="(item,index) in newSongList"
           :key="item.id"
         >
-          <td>{{index}}</td>
+          <td>{{index + 1}}</td>
           <td>
             <div class="img-wrap">
               <img
                 :src="item.album.blurPicUrl + '?param=70y70'"
                 alt=""
               />
-              <span class="iconfont icon-play"></span>
+              <span
+                class="iconfont icon-play"
+                @click="getSongUrl(item.id)"
+              ></span>
             </div>
           </td>
           <td>
-            <div class="song-wrap">
+            <div class="song-wrap fsc">
               <div class="name-wrap">
                 <span>{{item.name}}</span>
-                <span class="iconfont icon-mv"></span>
+                <span
+                  v-if="item.mvid != 0"
+                  class="iconfont icon-mv"
+                ></span>
               </div>
               <span></span>
             </div>
@@ -52,13 +60,35 @@
 </template>
 
 <script>
-import { getNewSong } from "@/api/discovery";
+import { getNewSong, getSongUrl } from "@/api/discovery";
 export default {
   name: "songs",
   data() {
     return {
-      type: 0,
       newSongList: [],
+      typeList: [
+        {
+          name: "全部",
+          id: "0",
+        },
+        {
+          name: "华语",
+          id: "7",
+        },
+        {
+          name: "欧美",
+          id: "96",
+        },
+        {
+          name: "日本",
+          id: "8",
+        },
+        {
+          name: "韩国",
+          id: "16",
+        },
+      ],
+      activeIndex: 0,
     };
   },
   created() {
@@ -66,15 +96,41 @@ export default {
   },
   methods: {
     // 获取最新音乐
-    getNewSong() {
-      getNewSong({ type: this.type }).then((res) => {
+    getNewSong(id) {
+      const type = id || 0;
+      getNewSong({ type }).then((res) => {
         console.log(res, "rrrrrrrr");
         this.newSongList = res.data;
+      });
+    },
+    // 点击当前标签
+    tabChange(item, index) {
+      this.activeIndex = index;
+      this.getNewSong(item.id);
+    },
+    // 获取歌曲链接
+    getSongUrl(id) {
+      getSongUrl({ id }).then((res) => {
+        let url = res.data[0].url;
+        this.$parent.musicUrl = url;
       });
     },
   },
 };
 </script>
 
-<style >
+<style scoped>
+.el-table.playlit-table th {
+  text-align: left !important;
+}
+.thead_box th {
+  height: 30px;
+}
+.tr_song {
+  height: 100px;
+}
+.tab-bar .item {
+  margin-right: 30px !important;
+  color: #333;
+}
 </style>

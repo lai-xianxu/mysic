@@ -67,7 +67,16 @@ export function getHighquality(data){
 export function getNewSong(data){
     return request({
         url: '/top/song',
-        method: 'post',
-        data
+        method: 'get',
+        params:data
+    })
+}
+
+// 获取最新音乐
+export function getNewMv(data){
+    return request({
+        url: '/mv/all',
+        method: 'get',
+        params:data
     })
 }

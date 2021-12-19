@@ -14,7 +14,7 @@
         <div class="singer-info">
           <div class="avatar-wrap">
             <img
-              src="../assets/avatar.jpg"
+              src="../../assets/avatar.jpg"
               alt=""
             />
           </div>
@@ -47,7 +47,7 @@
           <div class="item">
             <div class="icon-wrap">
               <img
-                src="../assets/avatar.jpg"
+                src="../../assets/avatar.jpg"
                 alt=""
               />
             </div>
@@ -72,7 +72,7 @@
           <div class="item">
             <div class="icon-wrap">
               <img
-                src="../assets/avatar.jpg"
+                src="../../assets/avatar.jpg"
                 alt=""
               />
             </div>
@@ -91,7 +91,7 @@
           <div class="item">
             <div class="icon-wrap">
               <img
-                src="../assets/avatar.jpg"
+                src="../../assets/avatar.jpg"
                 alt=""
               />
             </div>
@@ -110,7 +110,7 @@
           <div class="item">
             <div class="icon-wrap">
               <img
-                src="../assets/avatar.jpg"
+                src="../../assets/avatar.jpg"
                 alt=""
               />
             </div>

@@ -13,12 +13,17 @@
     </div>
     <div class="right-box">
       <div class="el-input el-input--small el-input--prefix">
-        <input
-          type="text"
-          autocomplete="off"
-          placeholder="搜索"
-          class="el-input__inner"
-        />
+        <el-input
+          placeholder="请输入内容"
+          v-model="searchValue"
+          clearable
+          @change="searchSong"
+        >
+          <i
+            slot="prefix"
+            class="el-input__icon el-icon-search"
+          ></i>
+        </el-input>
         <span class="el-input__prefix">
           <i class="el-input__icon el-icon-search"></i>
         </span>
@@ -33,7 +38,19 @@ export default {
   data() {
     return {
       query: "",
+      searchValue: "",
     };
+  },
+  methods: {
+    // 搜索歌曲
+    searchSong() {
+      this.$router.push({
+        path: "/result",
+        query: {
+          keywords: this.searchValue,
+        },
+      });
+    },
   },
 };
 </script>

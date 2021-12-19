@@ -1,0 +1,371 @@
+/* 右浮动 */
+.rt {
+  float: right;
+  margin-right: 30px;
+}
+
+/* 左浮动 */
+.lt {
+  float: left;
+  margin-left: 30px;
+}
+.bold {
+  font-weight: bold;
+}
+/* 字号 */
+.fs12 {
+  font-size: 12px !important;
+}
+.fs14 {
+  font-size: 14px !important;
+}
+.fs16 {
+  font-size: 16px !important;
+}
+.fs18 {
+  font-size: 18px !important;
+}
+.fs20 {
+  font-size: 20px !important;
+}
+.fs22 {
+  font-size: 22px !important;
+}
+.fs24 {
+  font-size: 24px !important;
+}
+.fs30 {
+  font-size: 30px !important;
+}
+.fs32 {
+  font-size: 32px !important;
+}
+.fs36 {
+  font-size: 36px !important;
+}
+
+.mt5 {
+  margin-top: 5px;
+}
+.mt8 {
+  margin-top: 8px;
+}
+.mt10 {
+  margin-top: 10px;
+}
+.mt12 {
+  margin-top: 12px;
+}
+.mt14 {
+  margin-top: 14px;
+}
+.mt15 {
+  margin-top: 15px;
+}
+.mt16 {
+  margin-top: 16px;
+}
+.mt18 {
+  margin-top: 18px;
+}
+.mt20 {
+  margin-top: 20px;
+}
+.mt30 {
+  margin-top: 30px !important;
+}
+.ml5 {
+  margin-left: 5px;
+}
+.ml10 {
+  margin-left: 10px;
+}
+.ml12 {
+  margin-left: 12px;
+}
+.ml14 {
+  margin-left: 14px;
+}
+.ml16 {
+  margin-left: 16px;
+}
+.ml20 {
+  margin-left: 20px;
+}
+.ml25 {
+  margin-left: 25px;
+}
+.ml30 {
+  margin-left: 30px;
+}
+.ml40 {
+  margin-left: 40px;
+}
+.mr5 {
+  margin-right: 5px !important;
+}
+.mr10 {
+  margin-right: 10px;
+}
+.mr20 {
+  margin-right: 20px;
+}
+.mr30 {
+  margin-right: 30px;
+}
+.mb10 {
+  margin-bottom: 10px;
+}
+.mb15 {
+  margin-bottom: 15px;
+}
+.mb20 {
+  margin-bottom: 20px;
+}
+.c000 {
+  color: #000;
+}
+.cccc {
+  color: #ccc;
+}
+.c111 {
+  color: #111;
+}
+.c1a {
+  color: #1a1a1a;
+}
+.c222 {
+  color: #222 !important;
+}
+.c333 {
+  color: #333;
+}
+.c40 {
+  color: #404040;
+}
+.c444 {
+  color: #444;
+}
+.c555 {
+  color: #555;
+}
+.c666 {
+  color: #666;
+}
+.c7b {
+  color: #7b7b7b;
+}
+.c79 {
+  color: #797979;
+}
+.c80 {
+  color: #808080;
+}
+.c-m-o {
+  color: #1890ff !important;
+}
+.c008 {
+  color: #0083ef;
+}
+.c888 {
+  color: #888;
+}
+.c999 {
+  color: #999;
+}
+.c575 {
+  color: #575d66;
+}
+.c57 {
+  color: #575757;
+}
+.cff6 {
+  color: #ff6600;
+}
+.cfff {
+  color: #fff;
+}
+.cff7 {
+  color: #ff7733;
+}
+.ff4 {
+  color: #ff4433;
+}
+.cffa {
+  color: #ffad33;
+}
+.ca5 {
+  color: #a5a5a5;
+}
+.c30d {
+  color: #30d230;
+}
+.cb3 {
+  color: #b3b3b3 !important;
+}
+.cb5 {
+  color: #b5b5b5;
+}
+.c4c {
+  color: #4c4c4c;
+}
+.c778 {
+  color: #778296;
+}
+.bgc-w {
+  background: #fff;
+}
+.fcc {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+}
+.fsc {
+  display: flex !important;
+  justify-content: flex-start !important;
+  align-items: center;
+}
+.fsac {
+  display: flex !important;
+  justify-content: space-around;
+  align-items: center;
+}
+.fsbs {
+  display: flex !important;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.fsas {
+  display: flex !important;
+  justify-content: space-around;
+  align-items: flex-start;
+}
+.fses {
+  display: flex !important;
+  justify-content: space-evenly;
+  align-items: flex-start;
+}
+.fsec {
+  display: flex !important;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.fsee {
+  display: flex !important;
+  justify-content: space-evenly;
+  align-items: flex-end;
+}
+.fcs {
+  display: flex !important;
+  justify-content: center;
+  align-items: flex-start;
+}
+.fcsb {
+  display: flex !important;
+  justify-content: center;
+  align-items: space-between;
+}
+.fssb {
+  display: flex !important;
+  justify-content: flex-start;
+  align-items: space-between;
+}
+.fss {
+  display: flex !important;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.fsbc {
+  display: flex !important;
+  justify-content: space-between;
+  align-items: center;
+}
+.fsbe {
+  display: flex !important;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.fec {
+  display: flex !important;
+  justify-content: flex-end;
+  align-items: center;
+}
+.fce {
+  display: flex !important;
+  justify-content: center;
+  align-items: flex-end;
+}
+.fse {
+  display: flex !important;
+  justify-content: flex-start;
+  align-items: flex-end;
+}
+.fes {
+  display: flex !important;
+  justify-content: flex-end;
+  align-items: start;
+}
+.fee {
+  display: flex !important;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+.f1 {
+  flex: 1;
+}
+.fw {
+  flex-wrap: wrap;
+}
+.fwno {
+  flex-wrap: nowrap;
+}
+.fdc {
+  flex-direction: column;
+}
+.ovh {
+  overflow: hidden;
+}
+.w100 {
+  width: 100%;
+}
+.ellipsis {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  word-break: break-all;
+}
+.ellipsis1 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  word-break: break-all;
+}
+.ellipsis2 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  word-break: break-all;
+}
+.ellipsis3 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  word-break: break-all;
+}
+.cpr {
+  cursor: pointer;
+}
+.pointer {
+  cursor: pointer;
+}
+.wsnw {
+  white-space: nowrap;
+}
+/* 去除焦点时的蓝色边框 */
+* :focus {
+  outline: none;
+}

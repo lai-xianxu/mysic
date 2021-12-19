@@ -1,4 +1,4 @@
-# hmplayer
+# mysic
 
 ## Project setup
 ```

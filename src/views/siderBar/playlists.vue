@@ -42,7 +42,7 @@
             <div class="img-wrap">
               <div class="num-wrap">
                 播放量:
-                <span class="num">{{item.playCount}}</span>
+                <span class="num">{{item.playCount | playNumFilter}}</span>
               </div>
               <img
                 :src="item.coverImgUrl + '?param=200y200'"

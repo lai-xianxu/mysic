@@ -3,20 +3,20 @@
     <div class="top-wrap">
       <div class="img-wrap">
         <img
-          src="../assets/playListCover.jpg"
+          :src="songInfo.coverImgUrl + '?param=230y230'"
           alt=""
         />
       </div>
       <div class="info-wrap">
-        <p class="title">俗世里的烟火气|总有些瞬间 让你热泪盈眶</p>
+        <p class="title">{{songInfo.name}}</p>
         <div class="author-wrap">
           <img
             class="avatar"
-            src="../assets/avatar.jpg"
+            :src="songInfo.creator && songInfo.creator.avatarUrl + '?param=35y35'"
             alt=""
           />
-          <span class="name">原创君</span>
-          <span class="time">2020-2-26 创建</span>
+          <span class="name">{{songInfo.creator && songInfo.creator.nickname}}</span>
+          <span class="time">{{songInfo.creator && songInfo.createTime | dataFormat}}创建</span>
         </div>
         <div class="play-wrap">
           <span class="iconfont icon-circle-play"></span>
@@ -25,41 +25,44 @@
         <div class="tag-wrap">
           <span class="title">标签:</span>
           <ul>
-            <li>华语</li>
-            <li>怀旧</li>
-            <li>感动</li>
+            <li
+              v-for="(item,i) in songInfo.tags"
+              :key="i"
+            >{{item}}</li>
           </ul>
         </div>
         <div class="desc-wrap">
           <span class="title">简介:</span>
-          <span class="desc">你是否曾在某个瞬间 被一次日落击中心中最柔软的部分 曾在回家途中
-            被袅袅升起的饭菜香味感动得热泪盈眶？ 生活或许有时不尽如人意
-            却总有一些叫“烟火气”的东西 使得我们在这个俗世中 依然保持希望
-            封面来自网络</span>
+          <span class="desc">{{songInfo.description}}</span>
         </div>
       </div>
     </div>
     <el-tabs v-model="activeIndex">
       <el-tab-pane
-        label="歌曲列表"
+        :label="`歌曲列表(${songList.length})`"
         name="1"
       >
         <table class="el-table playlit-table">
           <thead>
-            <th></th>
-            <th></th>
+            <th>#</th>
+            <th>封面</th>
             <th>音乐标题</th>
             <th>歌手</th>
             <th>专辑</th>
             <th>时长</th>
           </thead>
           <tbody>
-            <tr class="el-table__row">
-              <td>1</td>
+            <tr
+              class="el-table__row"
+              v-for="(item,index) in songList"
+              :key="item.id"
+              @click="getSongUrl(item.id)"
+            >
+              <td>{{index + 1}}</td>
               <td>
                 <div class="img-wrap">
                   <img
-                    src="../../assets/songCover.jpg"
+                    :src="item.al.picUrl + '?param=70y70'"
                     alt=""
                   />
                   <span class="iconfont icon-play"></span>
@@ -67,39 +70,26 @@
               </td>
               <td>
                 <div class="song-wrap">
-                  <div class="name-wrap">
-                    <span>你要相信这不是最后一天</span>
+                  <div class="name-wrap wsnw">
+                    <span>{{item.name}}</span>
                     <span class="iconfont icon-mv"></span>
                   </div>
-                  <span>电视剧加油练习生插曲</span>
-                </div>
-              </td>
-              <td>华晨宇</td>
-              <td>你要相信这不是最后一天</td>
-              <td>06:03</td>
-            </tr>
-            <tr class="el-table__row">
-              <td>2</td>
-              <td>
-                <div class="img-wrap">
-                  <img
-                    src="../../assets/songCover.jpg"
-                    alt=""
-                  />
-                  <span class="iconfont icon-play"></span>
+                  <!-- 二级标题 -->
+                  <span>{{item.alia[0]}}</span>
                 </div>
               </td>
               <td>
-                <div class="song-wrap">
-                  <div class="name-wrap">
-                    <span>你要相信这不是最后一天</span>
-                    <span class="iconfont icon-mv"></span>
-                  </div>
-                </div>
+                <span
+                  v-for="(k,i) in item.ar"
+                  :key="i"
+                >
+                  <span v-if="i < 4">{{k.name}}
+                    <span v-if="i !== item.ar.length - 1 && i !== 3">/</span>
+                  </span>
+                </span>
               </td>
-              <td>华晨宇</td>
-              <td>你要相信这不是最后一天</td>
-              <td>06:03</td>
+              <td>{{ item.al.name }}</td>
+              <td>{{item.dt | DurationFilter}}</td>
             </tr>
           </tbody>
         </table>
@@ -115,7 +105,7 @@
             <div class="item">
               <div class="icon-wrap">
                 <img
-                  src="../assets/avatar.jpg"
+                  src="../../assets/avatar.jpg"
                   alt=""
                 />
               </div>
@@ -140,7 +130,7 @@
             <div class="item">
               <div class="icon-wrap">
                 <img
-                  src="../assets/avatar.jpg"
+                  src="../../assets/avatar.jpg"
                   alt=""
                 />
               </div>
@@ -159,7 +149,7 @@
             <div class="item">
               <div class="icon-wrap">
                 <img
-                  src="../assets/avatar.jpg"
+                  src="../../assets/avatar.jpg"
                   alt=""
                 />
               </div>
@@ -178,7 +168,7 @@
             <div class="item">
               <div class="icon-wrap">
                 <img
-                  src="../assets/avatar.jpg"
+                  src="../../assets/avatar.jpg"
                   alt=""
                 />
               </div>
@@ -212,6 +202,8 @@
 </template>
 
 <script>
+import { detail, playlistAll } from "@/api/detail";
+import { getSongUrl } from "@/api/discovery";
 export default {
   name: "playlist",
   data() {
@@ -221,9 +213,41 @@ export default {
       total: 0,
       // 页码
       page: 1,
+      songInfo: {},
+      songList: [],
     };
   },
+  created() {
+    this.getPlayInfo();
+  },
   methods: {
+    // 获取歌单
+    getPlayInfo() {
+      const id = this.$route.query.id;
+      detail({
+        id,
+      }).then((res) => {
+        this.songInfo = res.playlist;
+        this.playlistAll();
+      });
+    },
+    // 获取歌单列表所有歌曲
+    playlistAll() {
+      const idList = this.songInfo.trackIds.map((x) => x.id);
+      const ids = idList.join(",");
+      playlistAll({
+        ids,
+      }).then((res) => {
+        this.songList = res.songs;
+      });
+    },
+    // 获取歌曲链接
+    getSongUrl(id) {
+      getSongUrl({ id }).then((res) => {
+        let url = res.data[0].url;
+        this.$parent.musicUrl = url;
+      });
+    },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
     },
@@ -231,5 +255,12 @@ export default {
 };
 </script>
 
-<style >
+<style scoped>
+.playlit-table th {
+  text-align: left !important;
+  height: 30px;
+}
+.el-table__row {
+  height: 100px;
+}
 </style>
