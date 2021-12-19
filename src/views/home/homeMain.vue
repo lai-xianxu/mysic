@@ -35,6 +35,7 @@
       <audio
         :src='musicUrl'
         controls
+        autoplay
       ></audio>
     </div>
   </div>

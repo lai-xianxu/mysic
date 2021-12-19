@@ -18,12 +18,16 @@
         <th>时长</th>
       </thead>
       <tbody>
-        <tr class="el-table__row">
-          <td>1</td>
+        <tr
+          class="el-table__row"
+          v-for="(item,index) in newSongList"
+          :key="item.id"
+        >
+          <td>{{index}}</td>
           <td>
             <div class="img-wrap">
               <img
-                src="../../assets/songCover.jpg"
+                :src="item.album.blurPicUrl + '?param=70y70'"
                 alt=""
               />
               <span class="iconfont icon-play"></span>
@@ -32,38 +36,15 @@
           <td>
             <div class="song-wrap">
               <div class="name-wrap">
-                <span>你要相信这不是最后一天</span>
+                <span>{{item.name}}</span>
                 <span class="iconfont icon-mv"></span>
               </div>
-              <span>电视剧加油练习生插曲</span>
+              <span></span>
             </div>
           </td>
-          <td>华晨宇</td>
-          <td>你要相信这不是最后一天</td>
-          <td>06:03</td>
-        </tr>
-        <tr class="el-table__row">
-          <td>2</td>
-          <td>
-            <div class="img-wrap">
-              <img
-                src="../../assets/songCover.jpg"
-                alt=""
-              />
-              <span class="iconfont icon-play"></span>
-            </div>
-          </td>
-          <td>
-            <div class="song-wrap">
-              <div class="name-wrap">
-                <span>你要相信这不是最后一天</span>
-                <span class="iconfont icon-mv"></span>
-              </div>
-            </div>
-          </td>
-          <td>华晨宇</td>
-          <td>你要相信这不是最后一天</td>
-          <td>06:03</td>
+          <td>{{item.artists[0].name}}</td>
+          <td>{{item.album.name}}</td>
+          <td>{{item.duration | DurationFilter}}</td>
         </tr>
       </tbody>
     </table>
@@ -71,10 +52,26 @@
 </template>
 
 <script>
+import { getNewSong } from "@/api/discovery";
 export default {
   name: "songs",
   data() {
-    return {};
+    return {
+      type: 0,
+      newSongList: [],
+    };
+  },
+  created() {
+    this.getNewSong();
+  },
+  methods: {
+    // 获取最新音乐
+    getNewSong() {
+      getNewSong({ type: this.type }).then((res) => {
+        console.log(res, "rrrrrrrr");
+        this.newSongList = res.data;
+      });
+    },
   },
 };
 </script>
