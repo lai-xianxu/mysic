@@ -2,7 +2,9 @@
 const DurationFilter = (data) => {
     const m = Math.floor(data / 1000 / 60)
     const s = Math.floor(data / 1000 % 60)
-    return `${m}分${s}秒`
+    const mm = m.toString().padStart(2,'0')
+    const ss = s.toString().padStart(2,'0')
+    return `${mm}:${ss}`
 }
 
 // 歌曲播放量过万显示万

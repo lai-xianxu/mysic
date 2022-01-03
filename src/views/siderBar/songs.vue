@@ -111,6 +111,11 @@ export default {
     // 获取歌曲链接
     getSongUrl(id) {
       getSongUrl({ id }).then((res) => {
+        this.$notify({
+          title: "歌曲",
+          message: "播放成功",
+          type: "success",
+        });
         let url = res.data[0].url;
         this.$parent.musicUrl = url;
       });

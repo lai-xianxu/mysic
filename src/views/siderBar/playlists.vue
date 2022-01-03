@@ -38,6 +38,7 @@
             class="item"
             v-for="item in playList"
             :key="item.id"
+            @click="jumpPlayDetail(item.id)"
           >
             <div class="img-wrap">
               <div class="num-wrap">
@@ -142,6 +143,15 @@ export default {
     handleTag(index, item) {
       this.activeIndex = index;
       this.getPlaylist(item);
+    },
+    // 跳转歌单详情页
+    jumpPlayDetail(id) {
+      this.$router.push({
+        path: "/playsDetail",
+        query: {
+          id,
+        },
+      });
     },
   },
 };

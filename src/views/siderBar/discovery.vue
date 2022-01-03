@@ -12,6 +12,7 @@
       >
         <img
           :src="item.imageUrl + '?param=550y230'"
+          @click="handleBanner(item)"
           alt=""
         />
       </el-carousel-item>
@@ -26,6 +27,7 @@
           class="item"
           v-for="item in songList"
           :key="item.id"
+          @click="jumpPlayDetail(item.id)"
         >
           <div class="img-wrap">
             <div class="desc-wrap">
@@ -51,19 +53,17 @@
           class="item"
           v-for="item in newsongList"
           :key="item.id"
+          @click="getSongUrl(item.id)"
         >
           <div class="img-wrap">
             <img
               :src="item.picUrl + '?param=80y80'"
               alt=""
             />
-            <span
-              class="iconfont icon-play"
-              @click="getSongUrl(item.id)"
-            ></span>
+            <span class="iconfont icon-play"></span>
           </div>
           <div class="song-wrap">
-            <div class="song-name">{{item.name}}{{item.id}}</div>
+            <div class="song-name">{{item.name}}</div>
             <div class="singer">{{item.song.artists[0].name}}</div>
           </div>
         </div>
@@ -77,6 +77,7 @@
           class="item"
           v-for="item in songMvList"
           :key="item.id"
+          @click="jumpMVDetail(item.id)"
         >
           <div class="img-wrap">
             <img
@@ -121,6 +122,19 @@ export default {
     this.getSongList();
   },
   methods: {
+    // 点击banner
+    handleBanner(item) {
+      if (item.encodeId != 0) {
+        this.getSongUrl(item.encodeId);
+      } else {
+        var jump = document.createElement("a");
+        jump.href = item.url;
+        jump.target = "_blank";
+        document.body.appendChild(jump);
+        jump.click();
+        jump.remove();
+      }
+    },
     // 获取页面歌曲
     getSongList() {
       // 获取轮播图
@@ -144,8 +158,31 @@ export default {
     // 获取歌曲链接
     getSongUrl(id) {
       getSongUrl({ id }).then((res) => {
+        this.$notify({
+          title: "歌曲",
+          message: "播放成功",
+          type: "success",
+        });
         let url = res.data[0].url;
         this.$parent.musicUrl = url;
+      });
+    },
+    // 跳转歌单详情页
+    jumpPlayDetail(id) {
+      this.$router.push({
+        path: "/playsDetail",
+        query: {
+          id,
+        },
+      });
+    },
+    // 跳转MV详情页
+    jumpMVDetail(id) {
+      this.$router.push({
+        path: "/mvDetail",
+        query: {
+          id,
+        },
       });
     },
   },

@@ -84,6 +84,7 @@
             class="item"
             v-for="item in mvList"
             :key="item.id"
+            @click="jumpMVDetail(item.id)"
           >
             <div class="img-wrap">
               <img
@@ -194,6 +195,15 @@ export default {
     jumpPlayDetail(id) {
       this.$router.push({
         path: "/playsDetail",
+        query: {
+          id,
+        },
+      });
+    },
+    // 跳转MV详情页
+    jumpMVDetail(id) {
+      this.$router.push({
+        path: "/mvDetail",
         query: {
           id,
         },

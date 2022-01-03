@@ -6,6 +6,7 @@ import songs from '@/views/siderBar/songs.vue'
 import mvs from '@/views/siderBar/mvs.vue'
 import result from '@/views/search/result.vue'
 import playsDetail from '@/views/songsDetail/playsDetail.vue'
+import mvDetail from '@/views/songsDetail/mvDetail.vue'
 
 Vue.use(VueRouter)
 
@@ -40,6 +41,11 @@ const routes = [
     path: '/playsDetail',
     name: playsDetail,
     component: playsDetail,
+  },
+  {
+    path: '/mvDetail',
+    name: mvDetail,
+    component: mvDetail,
   }
 ]
 
