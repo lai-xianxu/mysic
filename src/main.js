@@ -10,6 +10,10 @@ import 'element-ui/lib/theme-chalk/index.css'
 Vue.use(ElementUI)
 // 导入全局初始化样式
 import './assets/index.css'
+// 全局注册bus
+import VueBus from 'vue-bus';
+Vue.use(VueBus);
+
 // 注册全局过滤器
 import * as filter from './filter'
 Object.keys(filter).forEach(key => {

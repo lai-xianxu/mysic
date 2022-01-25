@@ -1,4 +1,4 @@
-# mysic
+# mysic(自娱自乐)
 
 ## Project setup
 ```

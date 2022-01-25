@@ -1338,8 +1338,7 @@ ol {
 }
 
 .index-container .player {
-  background: #f1f3f4;
-  height: 60px;
+  height: 30px;
   position: fixed;
   bottom: 0;
   left: 0;
@@ -1449,4 +1448,19 @@ ol {
   height: 100%;
   padding-top: 60px;
   padding-bottom: 60px;
+}
+
+/* 修改loading加载时的颜色 */
+.el-loading-spinner i{
+  color: #c3473a;
+  font-size: 50px;
+}
+
+/* 去除焦点时的蓝色边框 */
+* :focus {
+  outline: none;
+}
+.el-input.is-active .el-input__inner, .el-input__inner:focus:focus {
+  outline: none;
+  border-color: #e08c82;
 }

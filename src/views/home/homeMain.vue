@@ -82,15 +82,27 @@
         </ul>
       </div>
       <!-- 右侧内容 -->
-      <div class="main">
+      <div class="main" :class="{ min_main: pathStatus }">
         <router-view></router-view>
       </div>
     </div>
 
     <!-- 底部播放控件 -->
     <div class="player">
-      <audio :src="musicUrl" controls autoplay></audio>
+      <div class="player_item" :class="{ b0: audioSt }">
+        <audio :src="musicUrl" controls autoplay></audio>
+      </div>
     </div>
+
+    <!-- 右侧返回顶部按钮 -->
+    <el-button
+      type="danger"
+      icon="el-icon-caret-top"
+      circle
+      class="back_top"
+      v-if="scrollType"
+      @click="backTop"
+    ></el-button>
   </div>
 </template>
 
@@ -106,7 +118,9 @@ export default {
       currentIndex: 0,
       currentPath: "",
       pathStatus: true,
-      navStatus: false,
+      navStatus: true,
+      audioSt: false,
+      scrollType: false,
     };
   },
   watch: {
@@ -114,27 +128,65 @@ export default {
       handler(val, oldval) {
         this.currentPath = val.path;
         const paths = ["/discovery", "/playlists", "/songs", "/mvs"];
-        this.pathStatus = paths.includes(val.path);
-        console.log(this.pathStatus, "this.pathStatus");
-        console.log(val, "vvvvvvvv"); //新路由信息
-        console.log(oldval); //老路由信息
+        this.pathStatus = paths.includes(val.path); // 悬浮显示页面
       },
       // 深度观察监听
       deep: true,
+      // 初始也执行
+      immediate: true,
     },
   },
   created() {
     this.getBanner();
     this.currentPath = this.$route.path;
-    console.log(this.currentPath, this.currentPath);
+    // 注册可被弟页面调用的方法
+    this.$bus.on("change-nav", (e) => {
+      this.changeNav(e);
+    });
+    this.$bus.on("change-audio", (e) => {
+      this.changeAudio(e);
+    });
   },
-  mounted() {},
+  mounted() {
+    // 返回顶部
+    window.addEventListener("scroll", this.handleScroll, true);
+  },
+  beforeDestroy() {
+    // 页面销毁时注销
+    this.$bus.off("change-nav", this.changeNav);
+    this.$bus.off("change-audio", this.changeAudio);
+    window.removeEventListener("scroll", this.handleScroll);
+  },
   methods: {
+    // 点击返回顶部
+    backTop() {
+      let top = document.documentElement.scrollTop || document.body.scrollTop;
+      // 实现滚动效果
+      const timer = setInterval(() => {
+        document.documentElement.scrollTop =
+          document.body.scrollTop =
+          top -=
+            50;
+        if (top <= 0) {
+          clearInterval(timer);
+        }
+      }, 10);
+    },
+    // 监听高度
+    handleScroll() {
+      const top =
+        document.documentElement.scrollTop ||
+        document.body.scrollTop ||
+        window.pageXOffset;
+      this.scrollType = top > 600;
+    },
+    // 切换底部音乐栏状态
+    changeAudio(e) {
+      this.audioSt = e.status;
+    },
     // 切换左侧导航悬浮状态
-    changeNav() {
-      this.navStatus = true;
-      // var nav = document.getElementById("nav");
-      // nav.className = "nav2";
+    changeNav(e) {
+      this.navStatus = e.status;
     },
     // 上下一个轮播图
     prev() {
@@ -183,7 +235,7 @@ export default {
 </script>
 
 <style scoped>
-.main {
+.min_main {
   min-height: 102vh;
 }
 .lb_box {
@@ -253,5 +305,26 @@ export default {
 .nav2 {
   position: fixed !important;
   top: 370px !important;
+}
+.player_item {
+  position: fixed;
+  width: 100%;
+  height: 60px;
+  background: #f1f3f4;
+  box-shadow: 0px -2px 5px 0px #ccc;
+  bottom: -58px;
+  transition: all 0.5s ease;
+}
+.player:hover .player_item {
+  bottom: 0;
+}
+.b0 {
+  bottom: 0;
+}
+.back_top {
+  position: fixed;
+  left: 50%;
+  transform: translateX(570px);
+  bottom: 180px;
 }
 </style>

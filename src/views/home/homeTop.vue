@@ -20,18 +20,19 @@
           placement="bottom"
           width="250"
           trigger="click"
-          transition="zoom-in-top"
+          transition="el-collapse-transition"
         >
           <!-- 关键词搜索内容 -->
           <div
             v-if="searchValue"
             v-loading="loading"
             element-loading-spinner="el-icon-loading"
-            element-loading-text="拼命加载中"
           >
-            <div class="c666 fs12">搜 ' {{ searchValue }} ' 相关信息</div>
+            <div class="c666 fs12">
+              搜 <span class="cc82">{{ searchValue }}</span> 相关信息
+            </div>
             <el-divider content-position="left">单曲</el-divider>
-            <div v-if="!searchSongList.length" class="fs12 c999">
+            <div v-if="!searchSongList.length" class="fs12 c999 mt10">
               暂无相关单曲~
             </div>
             <div v-else>
@@ -50,7 +51,7 @@
             </div>
 
             <el-divider content-position="left">歌手</el-divider>
-            <div v-if="!searchArtistsList.length" class="fs12 c999">
+            <div v-if="!searchArtistsList.length" class="fs12 c999 mt10">
               暂无相关歌手~
             </div>
             <div v-else>
@@ -67,7 +68,7 @@
             </div>
 
             <el-divider content-position="left">歌单</el-divider>
-            <div v-if="!searchPlayList.length" class="fs12 c999">
+            <div v-if="!searchPlayList.length" class="fs12 c999 mt10">
               暂无相关歌单~
             </div>
             <div v-else>
@@ -127,6 +128,35 @@
         </el-popover>
       </div>
     </div>
+
+    <div class="fsc">
+      <!-- 右侧悬浮控制按钮 -->
+      <div class="fsc">
+        <span class="c666 fs14 mr10" :class="navValue ? 'c333' : ''"
+          >侧边悬浮</span
+        >
+        <el-switch
+          v-model="navValue"
+          active-color="#e08c82"
+          inactive-color="#eaecf0"
+          @change="changeNavSt"
+        >
+        </el-switch>
+      </div>
+      <!-- 音乐栏锁定 -->
+      <div class="fsc ml15">
+        <span class="c666 fs14 mr10" :class="navValue ? 'c333' : ''"
+          >音乐栏锁定</span
+        >
+        <el-switch
+          v-model="audioSwitch"
+          active-color="#e08c82"
+          inactive-color="#eaecf0"
+          @change="changeAudioSt"
+        >
+        </el-switch>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -144,12 +174,24 @@ export default {
       searchPlayList: [],
       hotList: [],
       loading: true,
+      navValue: true,
+      audioSwitch: false,
     };
   },
   mounted() {
     this.searchHot();
   },
   methods: {
+    // 切换底部音乐栏状态
+    changeAudioSt() {
+      // 调用兄页面方法
+      this.$bus.emit("change-audio", { status: this.audioSwitch });
+    },
+    // 切换左侧悬浮按钮状态
+    changeNavSt() {
+      // 调用兄页面方法
+      this.$bus.emit("change-nav", { status: this.navValue });
+    },
     // 确认搜索
     enterSearch(keywords) {
       this.$router.push({
@@ -241,12 +283,12 @@ export default {
   max-width: 220px;
   display: inline-block;
   padding: 3px 5px;
-  background: #e7f5ff;
-  border: 1px solid #ccebff;
+  background: rgba(224, 140, 130, 0.15);
+  border: 1px solid rgba(224, 140, 130, 0.5);
   border-radius: 4px;
   font-size: 13px;
   font-weight: 500;
-  color: #1890ff;
+  color: #e08c82;
   cursor: pointer;
 }
 .tag:active {
@@ -263,12 +305,14 @@ export default {
   padding: 10px;
 }
 .hots_box:hover {
-  color: #fff;
-  background-color: #90bddd;
+  background-color: rgba(224, 140, 130, 0.3);
   cursor: pointer;
 }
 .hots_box span:first-child {
-  color: #ff4222;
+  color: #e08c82;
+}
+.c333 {
+  color: #333 !important;
 }
 /* 修改loading加载时的颜色 */
 ::v-deep .el-loading-spinner .path {
