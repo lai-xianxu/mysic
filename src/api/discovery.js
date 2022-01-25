@@ -1,7 +1,7 @@
 import { request } from "@/util/request";
 
 // 获取首页轮播图数据
-export function getBanner(data){
+export function getBanner(data) {
     return request({
         url: '/banner',
         method: 'post',
@@ -10,7 +10,7 @@ export function getBanner(data){
 }
 
 // 获取推荐歌单
-export function personalized(data){
+export function personalized(data) {
     return request({
         url: '/personalized',
         method: 'post',
@@ -19,7 +19,7 @@ export function personalized(data){
 }
 
 // 获取最新音乐
-export function newsong(data){
+export function newsong(data) {
     return request({
         url: '/personalized/newsong',
         method: 'post',
@@ -28,16 +28,34 @@ export function newsong(data){
 }
 
 // 获取音乐链接
-export function getSongUrl(data){
+export function getSongUrl(data) {
     return request({
         url: '/song/url',
         method: 'get',
-        params:data
+        params: data
+    })
+}
+
+// 获取音乐详情
+export function getSongDetail(data) {
+    return request({
+        url: '/song/detail',
+        method: 'get',
+        params: data
+    })
+}
+
+// 获取歌词
+export function getSongLyric(data) {
+    return request({
+        url: '/lyric',
+        method: 'get',
+        params: data
     })
 }
 
 // 获取音乐mv
-export function getSongMV(data){
+export function getSongMV(data) {
     return request({
         url: '/personalized/mv',
         method: 'post',
@@ -46,16 +64,16 @@ export function getSongMV(data){
 }
 
 // 获取歌单列表
-export function getPlaylist(data){
+export function getPlaylist(data) {
     return request({
         url: '/top/playlist',
         method: 'get',
-        params:data
+        params: data
     })
 }
 
 // 获取推荐歌单
-export function getHighquality(data){
+export function getHighquality(data) {
     return request({
         url: '/top/playlist/highquality',
         method: 'post',
@@ -64,19 +82,19 @@ export function getHighquality(data){
 }
 
 // 获取最新音乐
-export function getNewSong(data){
+export function getNewSong(data) {
     return request({
         url: '/top/song',
         method: 'get',
-        params:data
+        params: data
     })
 }
 
 // 获取最新音乐
-export function getNewMv(data){
+export function getNewMv(data) {
     return request({
         url: '/mv/all',
         method: 'get',
-        params:data
+        params: data
     })
 }

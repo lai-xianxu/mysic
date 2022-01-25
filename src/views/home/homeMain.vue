@@ -90,7 +90,14 @@
     <!-- 底部播放控件 -->
     <div class="player">
       <div class="player_item" :class="{ b0: audioSt }">
-        <audio :src="musicUrl" controls autoplay></audio>
+        <audio :src="url" controls autoplay></audio>
+        <!-- <aplayer
+          :music="musicUrl"
+          :showLrc="true"
+          props="autoplay"
+          controls
+          :list="musicList"
+        ></aplayer> -->
       </div>
     </div>
 
@@ -107,13 +114,66 @@
 </template>
 
 <script>
-import { getBanner, getSongUrl } from "@/api/discovery";
+import {
+  getBanner,
+  getSongUrl,
+  getSongDetail,
+  getSongLyric,
+} from "@/api/discovery";
+import aplayer from "vue-aplayer"; // 引入播放组件
 export default {
   name: "index",
+  components: {
+    aplayer,
+  },
   data() {
     return {
-      musicUrl:
-        "http://m7.music.126.net/20200303182550/8aa5971b1630d1527a922ccd2b97f392/ymusic/035d/0109/520e/478f86cc9f6c6539f7c8ed3e06c1bf8e.mp3",
+      musicUrl: {
+        src: "http://m701.music.126.net/20220125180754/23e2cb57185d2b57af20fd71919c7a7a/jdymusic/obj/wo3DlMOGwrbDjj7DisKw/12783801314/6d4c/27c3/d316/32396ae3e0adf1a1d15a407b8e2269ce.mp3",
+        artist: "摩登兄弟刘宇宁",
+        pic: "https://p1.music.126.net/4cLKRV5pIyaMKSuCoqqntw==/109951166961144397.jpg",
+        theme: "pic",
+        lrc: "[00:00.000] 作词 : 方文山\n[00:01.000] 作曲 : Bryan（孙伟）\n[00:02.000] 编曲 : 刘苏毅\n[00:03.000] 制作人 : Bryan（孙伟）\n[00:13.55]北方的北风 有谁听懂\n[00:19.43]呼啸而过又是 什么内容\n[00:24.88]厚德可载物  爱要很专注\n[00:30.55]许下一个愿  走自己的路\n[00:35.65]\n[00:36.20]镖局的镖旗 谁来护送\n[00:41.56]故事里的人物  都在途中\n[00:46.82]这天道酬勤  问谁还清醒\n[00:52.82]与义气为邻 我豪气干云\n[00:58.17]\n[00:58.79]雪融了阴霾 虎啸春来\n[01:04.07]我在天地间豪迈 谁来精采\n[01:09.71]英雄气慨 热血涌了上来\n[01:15.20]这里的故事  变成传说 存在\n[01:23.56]\n[01:23.71]北方的北风 有谁听懂\n[01:25.08]呼啸而过是 什么内容\n[01:26.55]厚德可载物  爱要很专注\n[01:28.02]许一个愿  走自己的路\n[01:29.26]\n[01:29.94]镖局的镖旗 谁来护送\n[01:30.76]故事里的人物  都在途中\n[01:32.41]这天道酬勤  问谁还清醒\n[01:33.85]与义气为邻 我豪气干云\n[01:35.07]\n[01:35.19]我横渡沧海  去过了悬崖\n[01:37.89]欣赏过最美的 繁花盛开\n[01:40.43]这陌生的险境远在  千里外\n[01:42.85]而我的悠哉  已自成一派\n[01:45.80]\n[01:46.06]镖局的镖旗 谁来护送\n[01:51.56]故事里的人物  都在途中\n[01:56.45]这天道酬勤  问谁还清醒\n[02:02.54]与义气为邻 我豪气干云\n[02:08.22]\n[02:08.42]雪融了阴霾 虎啸春来\n[02:13.88]我在天地间豪迈 谁来精采\n[02:19.37]英雄气慨 热血涌了上来\n[02:25.01]这里的故事  变成传说 存在\n[02:33.09]\n[02:33.59]雪融了阴霾 虎啸春来\n[02:38.99]我在山水间留白 停止感慨\n[02:44.57]排山倒海  迎接新的世代\n[02:53.13]等结局精彩 谁都不准 离开\n[03:02.67]\n[03:25.44]\n[03:25.622] 吉他 : 刘苏毅\n[03:26.200] 和声 : 曾婕\n[03:26.778] 二胡 : 胡宸\n[03:27.356] 笛子 : 石磊\n[03:27.934] 箫 : 石磊\n[03:28.512] 古筝 : 周桃桃\n[03:29.090] 配唱制作人 : 丁爽\n[03:29.668] 弦乐 : 国际首席爱乐乐团\n[03:30.246] 人声录音 : 王倩倩\n[03:30.824] 人声录音室 : 横店红点录音棚\n[03:31.402] 混音 : 王路遥\n[03:31.980] 母带 : 王路遥\n[03:32.558] 监制 : Bryan（孙伟）\n[03:33.136] 音乐制作 : The U.M.C\n[03:33.714] 统筹 : 高航\n[03:34.292] 音乐营销 : 奔跑怪物\n[03:34.870] （未经许可，不得翻唱或使用）\n",
+      },
+      musicList: [
+        {
+          title: "白羊",
+          artist: "徐秉龙",
+          src: "http://m8.music.126.net/20200607160502/d62b8d5dc9c90c93a151914be957a617/ymusic/25a2/4ff4/52fc/d664724d25de35a8d4e23c1b986c60b5.mp3",
+          pic: "https://p1.music.126.net/tczb_7II9KzSuLQsVt89Gw==/109951163049336667.jpg",
+        },
+        {
+          title: "说谎",
+          artist: "林宥嘉",
+          src: "http://m7.music.126.net/20200607161953/af2e67e22c2407fea966c46769106159/ymusic/05ee/4458/4a12/e3ea4813e0c4abafe6c3d40b13cb9f65.mp3",
+          pic: "https://p2.music.126.net/mMZNB-jhYsw29K61QtopJA==/109951163187404137.jpg",
+        },
+        {
+          title: "成都",
+          artist: "赵雷",
+          src: "http://m7.music.126.net/20200607162234/8629f14056f784879d33dedbab34bf03/ymusic/fa90/df9c/59f7/95c4a2802e0b9191ae1a048f127e53c5.mp3",
+          pic: "https://p1.music.126.net/34YW1QtKxJ_3YnX9ZzKhzw==/2946691234868155.jpg",
+        },
+        {
+          title: "陪你到底",
+          artist: "许华升",
+          src: "http://m7.music.126.net/20200607161155/1ddfddaa4d9a7c3100c3e7329ce8e3da/ymusic/540f/005e/065e/ce65b58fea742cac390e1499eb32db98.mp3",
+          pic: "https://p1.music.126.net/a7QkLGexMQGT2lF3mqcUdw==/109951163693319625.jpg",
+        },
+        {
+          title: "广东爱情故事",
+          artist: "雨神",
+          src: "http://m7.music.126.net/20200607160858/6143003bbb9021f13678624978f9ba14/ymusic/c69c/aeed/2bd9/57487636f38ec8ef9355bf67d0741dfe.mp3",
+          pic: "https://p1.music.126.net/gjvguk9I-QwuyWFjQHM9SA==/109951163189947600.jpg",
+        },
+        {
+          title: "烟火里的尘埃",
+          artist: "华晨宇",
+          src: "http://m8.music.126.net/20200607161716/e2266bad871c28351a3ce257061b3310/ymusic/5d63/5150/0851/5f226aac018cafc2cb248f7d28fbd5b4.mp3",
+          pic: "https://p1.music.126.net/_49Xz_x9kTTdEgmYYk6w2w==/6672936069046297.jpg",
+        },
+      ],
+      url: "",
       bannerList: [],
       currentIndex: 0,
       currentPath: "",
@@ -146,6 +206,9 @@ export default {
     this.$bus.on("change-audio", (e) => {
       this.changeAudio(e);
     });
+    this.$bus.on("get-song-url", (e) => {
+      this.getSongUrl(e.id);
+    });
   },
   mounted() {
     // 返回顶部
@@ -158,6 +221,39 @@ export default {
     window.removeEventListener("scroll", this.handleScroll);
   },
   methods: {
+    // 获取歌曲链接
+    getSongUrl(id) {
+      getSongUrl({ id }).then((res) => {
+        // this.getSongDetail(id);
+        // this.getSongLyric(id);
+        this.$notify({
+          title: "歌曲",
+          message: "播放成功",
+          type: "success",
+        });
+        // this.musicUrl.src = res.data[0] && res.data[0].url;
+        // let url = res.data[0].url;
+        // this.url = url;
+      });
+    },
+    // 获取歌曲详情
+    getSongDetail(id) {
+      const ids = typeof id == "object" ? id.join(",") : id;
+      getSongDetail({ ids }).then((res) => {
+        this.musicUrl.title = res.songs[0] && res.songs[0].name;
+        this.musicUrl.artist =
+          res.songs[0] && res.songs[0].ar[0] && res.songs[0].ar[0].name;
+        this.musicUrl.pic = res.songs[0] && res.songs[0].al.picUrl;
+        this.musicUrl.theme = res.songs[0] && res.songs[0].al.picUrl;
+      });
+    },
+    // 获取歌曲歌词
+    getSongLyric(id) {
+      getSongLyric({ id }).then((res) => {
+        this.musicUrl.lrc = res.lrc.lyric;
+        console.log(res, "res.datares.data");
+      });
+    },
     // 点击返回顶部
     backTop() {
       let top = document.documentElement.scrollTop || document.body.scrollTop;
@@ -217,18 +313,6 @@ export default {
         jump.click();
         jump.remove();
       }
-    },
-    // 获取歌曲链接
-    getSongUrl(id) {
-      getSongUrl({ id }).then((res) => {
-        this.$notify({
-          title: "歌曲",
-          message: "播放成功",
-          type: "success",
-        });
-        let url = res.data[0].url;
-        this.musicUrl = url;
-      });
     },
   },
 };
@@ -305,26 +389,30 @@ export default {
 .nav2 {
   position: fixed !important;
   top: 370px !important;
+  z-index: 999;
 }
 .player_item {
   position: fixed;
   width: 100%;
-  height: 60px;
+  min-height: 60px;
   background: #f1f3f4;
   box-shadow: 0px -2px 5px 0px #ccc;
-  bottom: -58px;
+  transform: translateY(99%);
+  bottom: 0;
   transition: all 0.5s ease;
+  z-index: 9999;
 }
 .player:hover .player_item {
-  bottom: 0;
+  transform: translateY(0%);
 }
 .b0 {
-  bottom: 0;
+  transform: translateY(0%);
 }
 .back_top {
   position: fixed;
   left: 50%;
   transform: translateX(570px);
   bottom: 180px;
+  z-index: 1;
 }
 </style>
