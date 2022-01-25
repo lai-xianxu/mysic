@@ -1,27 +1,27 @@
 <template>
   <div class="discovery-container">
     <!-- 轮播图 -->
-    <el-carousel
+    <!-- <el-carousel
       class=""
       :interval="4000"
-      type="card"
+      height="300px"
+      @change="changeCarousel"
     >
       <el-carousel-item
         v-for="(item,index) in bannerList"
         :key="index"
       >
         <img
-          :src="item.imageUrl + '?param=550y230'"
+          :src="item.imageUrl + '?param=1100y460'"
           @click="handleBanner(item)"
           alt=""
         />
       </el-carousel-item>
-    </el-carousel>
+    </el-carousel> -->
+
     <!-- 推荐歌单 -->
     <div class="recommend">
-      <h3 class="title">
-        推荐歌单
-      </h3>
+      <h3 class="title">推荐歌单</h3>
       <div class="items">
         <div
           class="item"
@@ -31,23 +31,23 @@
         >
           <div class="img-wrap">
             <div class="desc-wrap">
-              <span class="desc">{{item.copywriter}}</span>
+              <span class="desc">{{ item.copywriter }}</span>
             </div>
-            <img
-              :src="item.picUrl + '?param=200y200'"
-              alt=""
-            />
+            <div class="desc-wrap2 fec fs14">
+              <i class="el-icon-headset mr5"></i>
+              <span>{{ item.playCount | playNumFilter }}</span>
+            </div>
+            <img :src="item.picUrl + '?param=200y200'" alt="" />
             <span class="iconfont icon-play"></span>
           </div>
-          <p class="name">{{item.name}}</p>
+          <p class="name">{{ item.name }}</p>
         </div>
       </div>
     </div>
+
     <!-- 最新音乐 -->
     <div class="news">
-      <h3 class="title">
-        最新音乐
-      </h3>
+      <h3 class="title">最新音乐</h3>
       <div class="items">
         <div
           class="item"
@@ -55,16 +55,23 @@
           :key="item.id"
           @click="getSongUrl(item.id)"
         >
-          <div class="img-wrap">
-            <img
-              :src="item.picUrl + '?param=80y80'"
-              alt=""
-            />
-            <span class="iconfont icon-play"></span>
+          <div class="fsc">
+            <div class="img-wrap">
+              <img :src="item.picUrl + '?param=80y80'" alt="" />
+              <span class="iconfont icon-play"></span>
+            </div>
+            <div class="song-wrap">
+              <div class="song-name ellipsis2">{{ item.name }}</div>
+              <div class="singer">{{ item.song.artists[0].name }}</div>
+            </div>
           </div>
-          <div class="song-wrap">
-            <div class="song-name">{{item.name}}</div>
-            <div class="singer">{{item.song.artists[0].name}}</div>
+          <div class="fsc c999 fs14">
+            <i class="el-icon-headset mr5"></i>
+            <span>{{
+              item.song &&
+              item.song.bMusic &&
+              item.song.bMusic.playTime | playNumFilter
+            }}</span>
           </div>
         </div>
       </div>
@@ -80,19 +87,16 @@
           @click="jumpMVDetail(item.id)"
         >
           <div class="img-wrap">
-            <img
-              :src="item.picUrl + '?param=250y140'"
-              alt=""
-            />
+            <img :src="item.picUrl + '?param=250y140'" alt="" />
             <span class="iconfont icon-play"></span>
             <div class="num-wrap">
               <div class="iconfont icon-play"></div>
-              <div class="num">{{item.playCount}}</div>
+              <div class="num">{{ item.playCount }}</div>
             </div>
           </div>
           <div class="info-wrap">
-            <div class="name">{{item.name}}</div>
-            <div class="singer">{{item.artistName}}</div>
+            <div class="name">{{ item.name }}</div>
+            <div class="singer">{{ item.artistName }}</div>
           </div>
         </div>
       </div>
@@ -147,7 +151,7 @@ export default {
         this.songList = res.result;
       });
       // 获取最新音乐
-      newsong({ limit: 10 }).then((res) => {
+      newsong({ limit: 11 }).then((res) => {
         this.newsongList = res.result;
       });
       // 获取MV
@@ -190,4 +194,7 @@ export default {
 </script>
 
 <style >
+.song-name {
+  width: 160px;
+}
 </style>

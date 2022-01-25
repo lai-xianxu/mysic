@@ -7,11 +7,12 @@
           <li class="tab">
             <span
               class="title"
-              :class="{'active': index == areaIndex}"
-              v-for="(item,index) in areaList"
+              :class="{ active: index == areaIndex }"
+              v-for="(item, index) in areaList"
               :key="index"
-              @click="handleAreaTag(index,item)"
-            >{{item}}</span>
+              @click="handleAreaTag(index, item)"
+              >{{ item }}</span
+            >
           </li>
         </ul>
       </div>
@@ -21,11 +22,12 @@
           <li class="tab">
             <span
               class="title"
-              :class="{'active': index == typeIndex}"
-              v-for="(item,index) in typeList"
+              :class="{ active: index == typeIndex }"
+              v-for="(item, index) in typeList"
               :key="index"
-              @click="handleTypeTag(index,item)"
-            >{{item}}</span>
+              @click="handleTypeTag(index, item)"
+              >{{ item }}</span
+            >
           </li>
         </ul>
       </div>
@@ -35,11 +37,12 @@
           <li class="tab">
             <span
               class="title"
-              :class="{'active': index == orderIndex}"
-              v-for="(item,index) in orderList"
+              :class="{ active: index == orderIndex }"
+              v-for="(item, index) in orderList"
               :key="index"
-              @click="handleOrderTag(index,item)"
-            >{{item}}</span>
+              @click="handleOrderTag(index, item)"
+              >{{ item }}</span
+            >
           </li>
         </ul>
       </div>
@@ -55,18 +58,15 @@
           @click="jumpMVDetail(item.id)"
         >
           <div class="img-wrap">
-            <img
-              :src="item.cover + '?param=250y130'"
-              alt=""
-            />
+            <img :src="item.cover + '?param=250y130'" alt="" />
             <div class="num-wrap">
               <div class="iconfont icon-play"></div>
-              <div class="num">{{item.playCount | playNumFilter}}</div>
+              <div class="num">{{ item.playCount | playNumFilter }}</div>
             </div>
           </div>
           <div class="info-wrap">
-            <div class="name">{{item.name}}</div>
-            <div class="singer">{{item.artistName}}</div>
+            <div class="name">{{ item.name }}</div>
+            <div class="singer">{{ item.artistName }}</div>
           </div>
         </div>
       </div>
@@ -96,7 +96,7 @@ export default {
       // 总条数
       total: 0,
       // 页容量
-      pageSize: 8,
+      pageSize: 16,
       pageIndex: 1,
       mvList: [],
       areaList: ["全部", "内地", "港台", "欧美", "日本", "韩国"],

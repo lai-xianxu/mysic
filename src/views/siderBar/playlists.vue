@@ -3,21 +3,14 @@
     <!-- 同步 -->
     <div class="top-card">
       <div class="icon-wrap">
-        <img
-          :src="highqualitySong.coverImgUrl + '?param?160y160'"
-          alt=""
-        />
+        <img :src="highqualitySong.coverImgUrl + '?param?160y160'" alt="" />
       </div>
       <div class="content-wrap">
         <div class="tag">精品歌单</div>
-        <div class="title">{{highqualitySong.name}} </div>
-        <div class="info">{{highqualitySong.description}}</div>
+        <div class="title">{{ highqualitySong.name }}</div>
+        <div class="info">{{ highqualitySong.description }}</div>
       </div>
-      <img
-        :src="highqualitySong.coverImgUrl"
-        alt=""
-        class="bg"
-      />
+      <img :src="highqualitySong.coverImgUrl" alt="" class="bg" />
       <div class="bg-mask"></div>
     </div>
     <div class="tab-container">
@@ -25,11 +18,12 @@
       <div class="tab-bar">
         <span
           class="item"
-          :class="{'active': index == activeIndex}"
-          v-for="(item,index) in tagList"
+          :class="{ active: index == activeIndex }"
+          v-for="(item, index) in tagList"
           :key="index"
-          @click="handleTag(index,item)"
-        >{{item}}</span>
+          @click="handleTag(index, item)"
+          >{{ item }}</span
+        >
       </div>
       <!-- tab的内容区域 -->
       <div class="tab-content">
@@ -43,15 +37,12 @@
             <div class="img-wrap">
               <div class="num-wrap">
                 播放量:
-                <span class="num">{{item.playCount | playNumFilter}}</span>
+                <span class="num">{{ item.playCount | playNumFilter }}</span>
               </div>
-              <img
-                :src="item.coverImgUrl + '?param=200y200'"
-                alt=""
-              />
+              <img :src="item.coverImgUrl + '?param=200y200'" alt="" />
               <span class="iconfont icon-play"></span>
             </div>
-            <p class="name">{{item.name}}</p>
+            <p class="name">{{ item.name }}</p>
           </div>
         </div>
       </div>
@@ -81,7 +72,7 @@ export default {
       total: 0,
       // 页码
       pageIndex: 1,
-      pageSize: 10,
+      pageSize: 20,
       highqualitySong: {},
       playList: [],
       activeIndex: 0,

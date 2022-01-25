@@ -1,58 +1,277 @@
 <template>
   <div class="top-container">
-    <div class="left-box">
-      <div class="icon-wrapper">
-        <span class="iconfont icon-home"></span>
-        <span class="iconfont icon-sami-select"></span>
-        <span class="iconfont icon-full-screen"></span>
+    <div class="fsc">
+      <div class="left-box">
+        <div class="fcc logo mt-2" @click="clearSong">
+          <img
+            src="https://crm-1253803335.file.myqcloud.com/img/20220124/f958a27a5e3c64f6.png?imageView2/1/w/25/h/25"
+            alt=""
+          />
+          <div>自娱自乐</div>
+        </div>
+
+        <div class="history-wrapper ml10">
+          <span class="iconfont icon-arrow-lift" @click="go(-1)"></span>
+          <span class="iconfont icon-arrow-right" @click="go(1)"></span>
+        </div>
       </div>
-      <div class="history-wrapper">
-        <span class="iconfont icon-arrow-lift"></span>
-        <span class="iconfont icon-arrow-right"></span>
-      </div>
-    </div>
-    <div class="right-box">
-      <div class="el-input el-input--small el-input--prefix">
-        <el-input
-          placeholder="请输入内容"
-          v-model="searchValue"
-          clearable
-          @change="searchSong"
+      <div class="right-box ml20">
+        <el-popover
+          placement="bottom"
+          width="250"
+          trigger="click"
+          transition="zoom-in-top"
         >
-          <i
-            slot="prefix"
-            class="el-input__icon el-icon-search"
-          ></i>
-        </el-input>
-        <span class="el-input__prefix">
-          <i class="el-input__icon el-icon-search"></i>
-        </span>
+          <!-- 关键词搜索内容 -->
+          <div
+            v-if="searchValue"
+            v-loading="loading"
+            element-loading-spinner="el-icon-loading"
+            element-loading-text="拼命加载中"
+          >
+            <div class="c666 fs12">搜 ' {{ searchValue }} ' 相关信息</div>
+            <el-divider content-position="left">单曲</el-divider>
+            <div v-if="!searchSongList.length" class="fs12 c999">
+              暂无相关单曲~
+            </div>
+            <div v-else>
+              <div
+                v-for="(item, index) in searchSongList"
+                :key="item.id"
+                class="tag mr10 mt10 ellipsis1"
+                @click="enterSearch(item.name)"
+              >
+                <div v-if="index < 5">
+                  {{ item.name }}-{{
+                    item.artists && item.artists[0] && item.artists[0].name
+                  }}
+                </div>
+              </div>
+            </div>
+
+            <el-divider content-position="left">歌手</el-divider>
+            <div v-if="!searchArtistsList.length" class="fs12 c999">
+              暂无相关歌手~
+            </div>
+            <div v-else>
+              <div
+                v-for="(item, index) in searchArtistsList"
+                :key="item.id"
+                class="tag mr10 mt10 ellipsis1"
+                @click="enterSearch(item.name)"
+              >
+                <div v-if="index < 5">
+                  {{ item.name }}
+                </div>
+              </div>
+            </div>
+
+            <el-divider content-position="left">歌单</el-divider>
+            <div v-if="!searchPlayList.length" class="fs12 c999">
+              暂无相关歌单~
+            </div>
+            <div v-else>
+              <div
+                v-for="(item, index) in searchPlayList"
+                :key="item.id"
+                class="tag mr10 mt10 ellipsis1"
+                @click="enterSearch(item.name)"
+              >
+                <div v-if="index < 5">
+                  {{ item.name }}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 热门搜索 -->
+          <div v-else>
+            <ul>
+              <li
+                v-for="(item, index) in hotList"
+                :key="index"
+                @click="enterSearch(item.searchWord)"
+              >
+                <div class="hots_box fsbc fs14" v-if="index < 5">
+                  <div>
+                    <span>{{ index + 1 }}</span>
+                    <span class="ml10">{{ item.searchWord }}</span>
+                  </div>
+                  <span class="c999">{{ item.score | playNumFilter }}</span>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <!-- 输入框 -->
+          <div
+            class="el-input el-input--small el-input--prefix"
+            slot="reference"
+          >
+            <el-input
+              ref="inputF"
+              slot="reference"
+              placeholder="请输入歌名/歌手"
+              v-model="searchValue"
+              clearable
+              @input="searchSong"
+              @clear="clearSong"
+              @keyup.enter.native="enterSearch(searchValue)"
+            >
+              <i slot="prefix" class="el-input__icon el-icon-search"></i>
+            </el-input>
+            <span class="el-input__prefix">
+              <i class="el-input__icon el-icon-search"></i>
+            </span>
+          </div>
+        </el-popover>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { searchSuggest, searchHot } from "@/api/search";
 export default {
   name: "top",
   data() {
     return {
       query: "",
       searchValue: "",
+      timer: null,
+      searchSongList: [],
+      searchArtistsList: [],
+      searchPlayList: [],
+      hotList: [],
+      loading: true,
     };
   },
+  mounted() {
+    this.searchHot();
+  },
   methods: {
-    // 搜索歌曲
-    searchSong() {
+    // 确认搜索
+    enterSearch(keywords) {
       this.$router.push({
         path: "/result",
         query: {
-          keywords: this.searchValue,
+          keywords: keywords,
         },
       });
+      this.$refs.inputF.blur();
+    },
+    // 热门歌曲
+    searchHot() {
+      searchHot().then((res) => {
+        console.log(res, "res");
+        this.hotList = res.data;
+      });
+    },
+    // 搜索歌曲
+    searchSong() {
+      if (this.timer) {
+        return;
+      }
+      this.loading = true;
+      this.timer = setTimeout(() => {
+        searchSuggest({ keywords: this.searchValue })
+          .then((res) => {
+            console.log(res, "rrrrrrr");
+            this.searchSongList = (res.result && res.result.songs) || [];
+            this.searchArtistsList = (res.result && res.result.artists) || [];
+            this.searchPlayList = (res.result && res.result.playlists) || [];
+            this.timer = false;
+            this.loading = false;
+          })
+          .catch(() => {
+            this.timer = false;
+            this.loading = false;
+          });
+      }, 500);
+    },
+    clearSong() {
+      this.$router.push({
+        path: "/discovery",
+      });
+      this.$refs.inputF.blur();
+    },
+    // 前进后退
+    go(e) {
+      this.$router.go(e);
     },
   },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.logo {
+  cursor: pointer;
+}
+.logo img {
+  width: 25px;
+  height: 25px;
+}
+.logo div {
+  font-family: KaiTi;
+  background-image: -webkit-linear-gradient(
+    bottom,
+    rgb(245, 89, 115),
+    rgb(82, 76, 74)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 26px;
+}
+.history-wrapper .iconfont {
+  background: rgba(0, 0, 0, 0.15);
+  transform: scale(0.7);
+}
+.mt-2 {
+  margin-top: -2px;
+}
+.el-divider__text,
+.el-link {
+  font-size: 12px;
+  color: #666;
+}
+.el-divider--horizontal {
+  margin: 15px 0 5px;
+}
+.tag {
+  max-width: 220px;
+  display: inline-block;
+  padding: 3px 5px;
+  background: #e7f5ff;
+  border: 1px solid #ccebff;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #1890ff;
+  cursor: pointer;
+}
+.tag:active {
+  background: #90bddd;
+}
+.w220 {
+  width: 220px;
+}
+.hots_box {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding: 10px;
+}
+.hots_box:hover {
+  color: #fff;
+  background-color: #90bddd;
+  cursor: pointer;
+}
+.hots_box span:first-child {
+  color: #ff4222;
+}
+/* 修改loading加载时的颜色 */
+::v-deep .el-loading-spinner .path {
+  stroke: #fff;
+}
+</style>

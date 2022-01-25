@@ -340,24 +340,25 @@
 }
 .ellipsis1 {
   display: -webkit-box;
+  white-space: nowrap;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
   overflow: hidden;
-  word-break: break-all;
+  text-overflow: ellipsis;
 }
 .ellipsis2 {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   overflow: hidden;
-  word-break: break-all;
+  text-overflow: ellipsis;
 }
 .ellipsis3 {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
   overflow: hidden;
-  word-break: break-all;
+  text-overflow: ellipsis;
 }
 .cpr {
   cursor: pointer;
