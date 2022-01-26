@@ -3,11 +3,12 @@
     <div class="tab-bar fsc mt10">
       <span
         class="item"
-        v-for="(item,index) in typeList"
+        v-for="(item, index) in typeList"
         :key="item.id"
-        @click="tabChange(item,index)"
-        :class="{'active': index == activeIndex}"
-      >{{item.name}}</span>
+        @click="tabChange(item, index)"
+        :class="{ active: index == activeIndex }"
+        >{{ item.name }}</span
+      >
     </div>
     <!-- 底部的table -->
     <table class="el-table playlit-table mt15 ovh">
@@ -22,16 +23,13 @@
       <tbody>
         <tr
           class="el-table__row tr_song"
-          v-for="(item,index) in newSongList"
+          v-for="(item, index) in newSongList"
           :key="item.id"
         >
-          <td>{{index + 1}}</td>
+          <td>{{ index + 1 }}</td>
           <td>
             <div class="img-wrap">
-              <img
-                :src="item.album.blurPicUrl + '?param=70y70'"
-                alt=""
-              />
+              <img :src="item.album.blurPicUrl + '?param=70y70'" alt="" />
               <span
                 class="iconfont icon-play"
                 @click="getSongUrl(item.id)"
@@ -41,18 +39,15 @@
           <td>
             <div class="song-wrap fsc">
               <div class="name-wrap">
-                <span>{{item.name}}</span>
-                <span
-                  v-if="item.mvid != 0"
-                  class="iconfont icon-mv"
-                ></span>
+                <span>{{ item.name }}</span>
+                <span v-if="item.mvid != 0" class="iconfont icon-mv"></span>
               </div>
               <span></span>
             </div>
           </td>
-          <td>{{item.artists[0].name}}</td>
-          <td>{{item.album.name}}</td>
-          <td>{{item.duration | DurationFilter}}</td>
+          <td>{{ item.artists[0].name }}</td>
+          <td>{{ item.album.name }}</td>
+          <td>{{ item.duration | DurationFilter }}</td>
         </tr>
       </tbody>
     </table>
@@ -60,7 +55,7 @@
 </template>
 
 <script>
-import { getNewSong, getSongUrl } from "@/api/discovery";
+import { getNewSong } from "@/api/discovery";
 export default {
   name: "songs",
   data() {
@@ -110,15 +105,16 @@ export default {
     },
     // 获取歌曲链接
     getSongUrl(id) {
-      getSongUrl({ id }).then((res) => {
-        this.$notify({
-          title: "歌曲",
-          message: "播放成功",
-          type: "success",
-        });
-        let url = res.data[0].url;
-        this.$parent.musicUrl = url;
-      });
+      // getSongUrl({ id }).then((res) => {
+      //   this.$notify({
+      //     title: "歌曲",
+      //     message: "播放成功",
+      //     type: "success",
+      //   });
+      //   let url = res.data[0].url;
+      //   this.$parent.musicUrl = url;
+      // });
+      this.$bus.emit("get-song-url", { id });
     },
   },
 };

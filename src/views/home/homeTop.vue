@@ -178,12 +178,25 @@ export default {
       audioSwitch: false,
     };
   },
+  created() {
+    // 注册可被弟页面调用的方法
+    this.$bus.on("change-audio-st", (e) => {
+      this.changeAudioSt(e.status);
+    });
+  },
   mounted() {
     this.searchHot();
   },
+  beforeDestroy() {
+    // 页面销毁时注销
+    this.$bus.off("change-audio-st", this.changeAudioSt);
+  },
   methods: {
     // 切换底部音乐栏状态
-    changeAudioSt() {
+    changeAudioSt(e) {
+      if (e != null) {
+        this.audioSwitch = e;
+      }
       // 调用兄页面方法
       this.$bus.emit("change-audio", { status: this.audioSwitch });
     },

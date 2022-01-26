@@ -109,7 +109,7 @@ import {
   getBanner,
   personalized,
   newsong,
-  getSongUrl,
+  // getSongUrl,
   getSongMV,
 } from "@/api/discovery";
 export default {

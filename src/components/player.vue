@@ -1,14 +1,11 @@
 <template>
   <!-- v-loading="audio.waiting" -->
-  <div class="di main-wrap">
-    <div class="block">
-      <span class="demonstration">默认</span>
-      <el-slider v-model="value1"></el-slider>
-    </div>
+  <div class="di main-wrap fcc">
     <!-- 这里设置了ref属性后，在vue组件中，就可以用this.$refs.audio来访问该dom元素 -->
     <audio
       ref="audio"
       class="dn"
+      autoplay
       :src="url"
       :preload="audio.preload"
       @play="onPlay"
@@ -18,52 +15,111 @@
       @timeupdate="onTimeupdate"
       @loadedmetadata="onLoadedmetadata"
     ></audio>
-    <div>
-      <el-button type="text" @click="startPlayOrPause">{{
-        audio.playing | transPlayPause
-      }}</el-button>
-      <el-button
-        v-show="!controlList.noSpeed"
-        type="text"
-        @click="changeSpeed"
-        >{{ audio.speed | transSpeed }}</el-button
-      >
 
-      <el-tag type="info">{{ audio.currentTime | formatSecond }}</el-tag>
+    <div class="w1100 fsbc">
+      <!-- 左侧 -->
+      <div class="fsc">
+        <img :src="music.pic" alt="" class="music_pic" />
+        <!-- 内容 -->
+        <div class="fes-c mt10">
+          <div class="fsbc w300 ml15">
+            <div class="c333 fs14 fsc">
+              <span>{{ music.title }} -&nbsp;</span>
+              <span>{{ music.artist }}</span>
+            </div>
+            <span class="c999 fs12">{{
+              audio.currentTime | formatSecond
+            }}</span>
+          </div>
+          <!-- 音频条 -->
+          <el-slider
+            v-show="!controlList.noProcess"
+            v-model="sliderTime"
+            :format-tooltip="formatProcessToolTip"
+            @change="changeCurrentTime"
+            class="slider"
+          ></el-slider>
+        </div>
+      </div>
 
-      <el-slider
-        v-show="!controlList.noProcess"
-        v-model="sliderTime"
-        :format-tooltip="formatProcessToolTip"
-        @change="changeCurrentTime"
-        class="slider"
-      ></el-slider>
+      <!-- 中间 -->
+      <div class="fsc">
+        <el-tooltip class="item" effect="dark" content="上一曲" placement="top">
+          <i class="iconfont icon-shangyishou mr30 fs20"></i>
+        </el-tooltip>
 
-      <el-tag type="info">{{ audio.maxTime | formatSecond }}</el-tag>
+        <el-tooltip
+          class="item mr30"
+          effect="dark"
+          :content="audio.playing | transPlayPause"
+          placement="top"
+        >
+          <div class="fsc" @click="startPlayOrPause">
+            <div v-if="!audio.playing" class="iconfont icon-bofang fs50"></div>
+            <div v-else class="iconfont icon-zanting fs40"></div>
+          </div>
+        </el-tooltip>
 
-      <el-button
-        v-show="!controlList.noMuted"
-        type="text"
-        @click="startMutedOrNot"
-        >{{ audio.muted | transMutedOrNot }}</el-button
-      >
+        <el-tooltip class="item" effect="dark" content="下一曲" placement="top">
+          <i class="iconfont icon-xiayishou mr30 fs20"></i>
+        </el-tooltip>
+      </div>
 
-      <el-slider
-        v-show="!controlList.noVolume"
-        v-model="volume"
-        :format-tooltip="formatVolumeToolTip"
-        @change="changeVolume"
-        class="slider"
-      ></el-slider>
-
-      <a
-        :href="url"
-        v-show="!controlList.noDownload"
-        target="_blank"
-        class="download"
-        download
-        >下载</a
-      >
+      <!-- 右侧 -->
+      <div class="fsc c999">
+        <!-- 喜欢 -->
+        <el-tooltip class="item" effect="dark" content="喜欢" placement="top">
+          <i class="iconfont icon-jushoucang mr30"></i>
+        </el-tooltip>
+        <!-- 下载 -->
+        <el-tooltip class="item" effect="dark" content="下载" placement="top">
+          <a
+            :href="url"
+            v-show="!controlList.noDownload"
+            target="_blank"
+            class="download mr30"
+            download
+          >
+            <i
+              class="
+                iconfont
+                icon-cangpeitubiao_xiazaipandiandanxiazaidayinmoban
+              "
+            ></i>
+          </a>
+        </el-tooltip>
+        <!-- 进度 -->
+        <el-tooltip
+          class="item"
+          effect="dark"
+          :content="audio.speed | transSpeed"
+          placement="top"
+        >
+          <i class="iconfont icon-kuaijin mr30" @click="changeSpeed"></i>
+        </el-tooltip>
+        <el-tooltip class="item" effect="dark" content="循环" placement="top">
+          <i class="iconfont icon-liebiao mr30"></i>
+        </el-tooltip>
+        <!-- 音量 -->
+        <div class="fsc">
+          <el-tooltip class="item" effect="dark" content="音量" placement="top">
+            <div class="fsc" @click="startMutedOrNot">
+              <i
+                v-if="volume != 0 && !audio.muted"
+                class="iconfont icon-yinliang"
+              ></i>
+              <i v-else class="iconfont icon-24gl-volumeCross"></i>
+            </div>
+          </el-tooltip>
+          <el-slider
+            v-show="!controlList.noVolume"
+            v-model="volume"
+            :format-tooltip="formatVolumeToolTip"
+            @change="changeVolume"
+            class="slider2"
+          ></el-slider>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -81,17 +137,18 @@ function realFormatSecond(second) {
     second = second - mimute * 60;
 
     return (
-      hours + ":" + ("0" + mimute).slice(-2) + ":" + ("0" + second).slice(-2)
+      // hours + ":" + ("0" + mimute).slice(-2) + ":" + ("0" + second).slice(-2)
+      ("0" + mimute).slice(-2) + ":" + ("0" + second).slice(-2)
     );
   } else {
-    return "0:00:00";
+    return "00:00";
   }
 }
 
 export default {
   props: {
     theUrl: {
-      type: String,
+      type: Object,
       required: true,
     },
     theSpeeds: {
@@ -138,11 +195,17 @@ export default {
         // 不要快进按钮
         noSpeed: false,
       },
+      music: {},
     };
   },
   watch: {
-    theUrl(nv) {
-      this.url = nv;
+    theUrl: {
+      handler(nv) {
+        this.url = nv.src;
+        this.music = nv;
+      },
+      immediate: true,
+      deep: true,
     },
   },
   methods: {
@@ -154,23 +217,25 @@ export default {
         }
       });
     },
+    // 切换进度
     changeSpeed() {
       let index = this.speeds.indexOf(this.audio.speed) + 1;
       this.audio.speed = this.speeds[index % this.speeds.length];
       this.$refs.audio.playbackRate = this.audio.speed;
     },
+    // 是否静音
     startMutedOrNot() {
       this.$refs.audio.muted = !this.$refs.audio.muted;
       this.audio.muted = this.$refs.audio.muted;
     },
     // 音量条toolTip
     formatVolumeToolTip(index) {
-      return "音量条: " + index;
+      return "音量: " + index;
     },
     // 进度条toolTip
     formatProcessToolTip(index = 0) {
       index = parseInt((this.audio.maxTime / 100) * index);
-      return "进度条: " + realFormatSecond(index);
+      return "进度: " + realFormatSecond(index);
     },
     // 音量改变
     changeVolume(index = 0) {
@@ -179,6 +244,8 @@ export default {
     },
     // 播放跳转
     changeCurrentTime(index) {
+      console.log(this.$refs.audio.currentTime, "this.$refs.audio.currentTime");
+      console.log(index, "5466666666");
       this.$refs.audio.currentTime = parseInt(
         (index / 100) * this.audio.maxTime
       );
@@ -267,14 +334,23 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .main-wrap {
-  padding: 10px 15px;
+  padding: 0 45px;
+  width: 100%;
+  /* height: 80px; */
 }
 .slider {
   display: inline-block;
-  width: 100px;
+  width: 300px;
   position: relative;
-  top: 14px;
+  /* top: 14px; */
   margin-left: 15px;
+}
+.slider2 {
+  display: inline-block;
+  width: 50px;
+  position: relative;
+  /* top: 14px; */
+  margin-left: 10px;
 }
 
 .di {
@@ -282,11 +358,46 @@ export default {
 }
 
 .download {
-  color: #409eff;
-  margin-left: 15px;
+  color: #999;
 }
 
 .dn {
   display: none;
+}
+.w1100 {
+  position: relative;
+  width: 1100px;
+}
+.music_pic {
+  width: 60px;
+  height: 60px;
+}
+.w300 {
+  width: 300px;
+}
+.fs50 {
+  font-size: 34px !important;
+}
+.fs40 {
+  font-size: 30px !important;
+}
+</style>
+<style>
+.el-slider__runway {
+  height: 3px !important;
+}
+.el-slider__bar {
+  height: 3px !important;
+  background-color: #e08c82 !important;
+}
+.el-slider__button-wrapper {
+  height: 18px !important;
+  width: 18px !important;
+  top: -8px !important;
+}
+.el-slider__button {
+  width: 8px !important;
+  height: 8px !important;
+  border: 2px solid #e08c82 !important;
 }
 </style>
