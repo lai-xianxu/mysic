@@ -90,14 +90,9 @@
     <!-- 底部播放控件 -->
     <div class="player">
       <div class="player_item" :class="{ b0: audioSt }">
-        <audio :src="url" controls autoplay></audio>
-        <!-- <aplayer
-          :music="musicUrl"
-          :showLrc="true"
-          props="autoplay"
-          controls
-          :list="musicList"
-        ></aplayer> -->
+        <!-- <audio :src="url" controls autoplay></audio> -->
+        <!-- <aplayer :music="musicUrl" :showLrc="true" :list="musicList"></aplayer> -->
+        <player :theUrl="url" />
       </div>
     </div>
 
@@ -121,10 +116,12 @@ import {
   getSongLyric,
 } from "@/api/discovery";
 import aplayer from "vue-aplayer"; // 引入播放组件
+import Player from "../../components/player.vue";
 export default {
   name: "index",
   components: {
     aplayer,
+    Player,
   },
   data() {
     return {
@@ -232,8 +229,8 @@ export default {
           type: "success",
         });
         // this.musicUrl.src = res.data[0] && res.data[0].url;
-        // let url = res.data[0].url;
-        // this.url = url;
+        let url = res.data[0].url;
+        this.url = url;
       });
     },
     // 获取歌曲详情
@@ -394,7 +391,7 @@ export default {
 .player_item {
   position: fixed;
   width: 100%;
-  min-height: 60px;
+  min-height: 100px;
   background: #f1f3f4;
   box-shadow: 0px -2px 5px 0px #ccc;
   transform: translateY(99%);
