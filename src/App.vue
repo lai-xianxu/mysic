@@ -19,5 +19,5 @@ export default {
 
 <style >
 @import "./style/index.css";
-@import "//at.alicdn.com/t/font_2970269_i3pv36gype.css";
+@import "//at.alicdn.com/t/font_2970269_40r8eew4t68.css";
 </style>

@@ -97,9 +97,62 @@
         >
           <i class="iconfont icon-kuaijin mr30" @click="changeSpeed"></i>
         </el-tooltip>
-        <el-tooltip class="item" effect="dark" content="循环" placement="top">
-          <i class="iconfont icon-liebiao mr30"></i>
-        </el-tooltip>
+        <!-- 列表 -->
+        <el-popover
+          placement="top"
+          title="标题"
+          width="520"
+          trigger="click"
+          offset="200"
+        >
+          <table class="w100">
+            <thead class="w100 mb10">
+              <tr class="w100">
+                <td class="fs15 c333 bold">
+                  播放列表 <span class="c999 fs12">共9首</span>
+                </td>
+                <td></td>
+                <td class="tar">
+                  <i class="iconfont icon-shanchu mr5"></i>
+                  <span>清空列表</span>
+                  <i class="iconfont icon-shanchu1 ml15"></i>
+                </td>
+              </tr>
+            </thead>
+            <tbody class="w100">
+              <tr class="w100 th_tr">
+                <td>
+                  <i>1</i>
+                  <span class="ml5 c000">雇佣者</span>
+                </td>
+                <td class="tac">陈奕迅</td>
+                <td class="tar bold dt">04:06</td>
+                <td class="icon tar">
+                  <i class="iconfont icon-jushoucang fs14 mr15"></i>
+                  <i
+                    class="
+                      iconfont
+                      fs14
+                      icon-cangpeitubiao_xiazaipandiandanxiazaidayinmoban
+                      mr15
+                    "
+                  ></i>
+                  <i class="iconfont icon-shanchu fs14 mr15"></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <el-tooltip
+            slot="reference"
+            class="item"
+            effect="dark"
+            content="列表"
+            placement="top"
+          >
+            <i class="iconfont icon-liebiao mr30"></i>
+          </el-tooltip>
+        </el-popover>
+
         <!-- 音量 -->
         <div class="fsc">
           <el-tooltip class="item" effect="dark" content="音量" placement="top">
@@ -399,5 +452,37 @@ export default {
   width: 8px !important;
   height: 8px !important;
   border: 2px solid #e08c82 !important;
+}
+.el-popper[x-placement^="top"] {
+  top: 270px !important;
+}
+.tac {
+  text-align: center;
+}
+.tal {
+  text-align: left;
+}
+.tar {
+  text-align: right;
+}
+table {
+  border-collapse: collapse;
+}
+.th_tr {
+  height: 42px;
+  cursor: pointer;
+  line-height: 42px;
+}
+.th_tr:hover {
+  background: #f7f7f7;
+}
+.th_tr:hover .dt {
+  display: none;
+}
+.th_tr:hover .icon {
+  display: block;
+}
+.icon {
+  display: none;
 }
 </style>

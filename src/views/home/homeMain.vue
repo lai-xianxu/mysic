@@ -149,6 +149,7 @@ export default {
       audioSt: false,
       scrollType: false,
       playAudio: false,
+      taskList: [],
     };
   },
   watch: {
@@ -177,6 +178,9 @@ export default {
     this.$bus.on("get-song-url", (e) => {
       this.getSongUrl(e.id);
     });
+    this.$bus.on("get-song-details", (e) => {
+      this.getSongDetails(e.ids);
+    });
   },
   mounted() {
     // 返回顶部
@@ -189,6 +193,24 @@ export default {
     window.removeEventListener("scroll", this.handleScroll);
   },
   methods: {
+    // 获取歌曲任务队列
+    getSongDetails(ids) {
+      ids = ids.join(",");
+      getSongDetail({ ids }).then((res) => {
+        console.log(res, "rrrrrrrrrrrrr");
+        res.privileges.forEach((item) => {
+          this.taskList.push({
+            id: item.id,
+          });
+        });
+        res.songs.forEach((e, i) => {
+          console.log(1111);
+          this.taskList[i].title = e.name;
+          this.taskList[i].artist = e.ar[0] && e.ar[0].name;
+          this.taskList[i].duration = e.dt;
+        });
+      });
+    },
     // 获取歌曲链接
     getSongUrl(id) {
       getSongUrl({ id }).then((res) => {
@@ -207,13 +229,13 @@ export default {
         this.musicUrl.artist =
           res.songs[0] && res.songs[0].ar[0] && res.songs[0].ar[0].name;
         this.musicUrl.pic = res.songs[0] && res.songs[0].al.picUrl;
-        // this.musicUrl.theme = res.songs[0] && res.songs[0].al.picUrl;
-        this.musicUrl.theme = "pic";
+        this.musicUrl.theme = res.songs[0] && res.songs[0].al.picUrl;
         this.$notify({
           title: "歌曲",
           message: "播放成功",
           type: "success",
         });
+        // 底部播放器弹起
         this.playAudio = true;
         setTimeout(() => {
           this.playAudio = false;
