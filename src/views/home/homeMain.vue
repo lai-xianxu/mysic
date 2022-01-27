@@ -98,7 +98,7 @@
         <div class="ban_round"></div>
         <!-- <audio :src="musicUrl" autoplay ></audio> -->
         <!-- <aplayer :music="musicUrl" :showLrc="true" :list="musicList"></aplayer> -->
-        <player :theUrl="musicUrl" />
+        <player />
       </div>
     </div>
 
@@ -197,18 +197,20 @@ export default {
     getSongDetails(ids) {
       ids = ids.join(",");
       getSongDetail({ ids }).then((res) => {
-        console.log(res, "rrrrrrrrrrrrr");
+        let taskList = [];
         res.privileges.forEach((item) => {
-          this.taskList.push({
+          taskList.push({
             id: item.id,
           });
         });
         res.songs.forEach((e, i) => {
-          console.log(1111);
-          this.taskList[i].title = e.name;
-          this.taskList[i].artist = e.ar[0] && e.ar[0].name;
-          this.taskList[i].duration = e.dt;
+          taskList[i].title = e.name;
+          taskList[i].artist = e.ar[0] && e.ar[0].name;
+          taskList[i].duration = e.dt;
         });
+        // 组件存储数据到vuex
+        this.$store.commit("MUSIC_LIST", taskList); // MUSIC_LIST 方法名
+        localStorage.setItem("musicList", JSON.stringify(taskList));
       });
     },
     // 获取歌曲链接
@@ -216,7 +218,6 @@ export default {
       getSongUrl({ id }).then((res) => {
         this.musicUrl.src = res.data[0] && res.data[0].url;
         this.getSongDetail(id);
-        this.getSongLyric(id);
         // let url = res.data[0].url;
         // this.url = url;
       });
@@ -230,6 +231,19 @@ export default {
           res.songs[0] && res.songs[0].ar[0] && res.songs[0].ar[0].name;
         this.musicUrl.pic = res.songs[0] && res.songs[0].al.picUrl;
         this.musicUrl.theme = res.songs[0] && res.songs[0].al.picUrl;
+        this.getSongLyric(id);
+      });
+    },
+    // 获取歌曲歌词
+    getSongLyric(id) {
+      getSongLyric({ id }).then((res) => {
+        this.musicUrl.lrc = res.lrc.lyric;
+        this.musicUrl.id = id;
+        // 组件存储数据到vuex
+        this.$store.commit("CUR_MUSIC", this.musicUrl); // MUSIC_LIST 方法名
+        const musicUrl = JSON.stringify(this.musicUrl);
+        localStorage.setItem("curMusic", musicUrl);
+
         this.$notify({
           title: "歌曲",
           message: "播放成功",
@@ -240,13 +254,6 @@ export default {
         setTimeout(() => {
           this.playAudio = false;
         }, 2500);
-      });
-    },
-    // 获取歌曲歌词
-    getSongLyric(id) {
-      getSongLyric({ id }).then((res) => {
-        this.musicUrl.lrc = res.lrc.lyric;
-        console.log(res, "res.datares.data");
       });
     },
     // 点击返回顶部

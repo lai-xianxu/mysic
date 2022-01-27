@@ -53,7 +53,7 @@
           class="item"
           v-for="item in newsongList"
           :key="item.id"
-          @click="getSongUrl(item.id)"
+          @click="getSongUrl(item.id, newsongList)"
         >
           <div class="fsc">
             <div class="img-wrap">
@@ -129,7 +129,7 @@ export default {
     // 点击banner
     handleBanner(item) {
       if (item.encodeId != 0) {
-        this.getSongUrl(item.encodeId);
+        this.getSongUrl(item.encodeId, [{ id: item.encodeId }]);
       } else {
         var jump = document.createElement("a");
         jump.href = item.url;
@@ -160,7 +160,7 @@ export default {
       });
     },
     // 获取歌曲链接
-    getSongUrl(id) {
+    getSongUrl(id, list) {
       // getSongUrl({ id }).then((res) => {
       //   this.$notify({
       //     title: "歌曲",
@@ -170,7 +170,9 @@ export default {
       //   let url = res.data[0].url;
       //   this.$parent.musicUrl = url;
       // });
+      const ids = list.map((x) => x.id);
       this.$bus.emit("get-song-url", { id });
+      this.$bus.emit("get-song-details", { ids });
     },
     // 跳转歌单详情页
     jumpPlayDetail(id) {

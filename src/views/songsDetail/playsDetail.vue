@@ -55,7 +55,7 @@
               class="el-table__row"
               v-for="(item, index) in songList"
               :key="item.id"
-              @click="getSongUrl(item.id)"
+              @click="getSongUrl(item.id, songList)"
             >
               <td>{{ index + 1 }}</td>
               <td>
@@ -229,7 +229,7 @@ export default {
       });
     },
     // 获取歌曲链接
-    getSongUrl(id) {
+    getSongUrl(id, list) {
       // getSongUrl({ id }).then((res) => {
       //   this.$notify({
       //     title: "歌曲",
@@ -239,7 +239,9 @@ export default {
       //   let url = res.data[0].url;
       //   this.$parent.musicUrl = url;
       // });
+      const ids = list.map((x) => x.id);
       this.$bus.emit("get-song-url", { id });
+      this.$bus.emit("get-song-details", { ids });
     },
     // 获取歌曲热门评论
     getHotComment() {

@@ -13,6 +13,8 @@ import './assets/index.css'
 // 全局注册bus
 import VueBus from 'vue-bus';
 Vue.use(VueBus);
+// 导入vuex
+import store from './store'
 
 // 注册全局过滤器
 import * as filter from './filter'
@@ -25,5 +27,6 @@ Vue.config.productionTip = false
 new Vue({
   render: h => h(App),
   // 挂载到Vue示例上
-  router
+  router,
+  store
 }).$mount('#app')
