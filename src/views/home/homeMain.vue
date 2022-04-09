@@ -51,32 +51,44 @@
         v-if="pathStatus"
       >
         <ul>
-          <li>
+          <li @click.stop="jump('/discovery')">
             <el-tooltip content="发现音乐" placement="left" effect="light">
-              <router-link to="/discovery">
-                <span class="iconfont icon-yinlechangpian1"></span>
-              </router-link>
+              <span
+                class="iconfont icon-yinlechangpian1"
+                :class="{ active: $route.path == '/discovery' }"
+              ></span>
             </el-tooltip>
           </li>
-          <li>
+          <li @click.stop="jump('/playlists')">
             <el-tooltip content="推荐歌单" placement="left" effect="light">
-              <router-link to="/playlists">
-                <span class="iconfont icon-music-list"></span>
-              </router-link>
+              <span
+                class="iconfont icon-music-list"
+                :class="{ active: $route.path == '/playlists' }"
+              ></span>
             </el-tooltip>
           </li>
-          <li>
+          <li @click.stop="jump('/songs')">
             <el-tooltip content="最新音乐" placement="left" effect="light">
-              <router-link to="/songs">
-                <span class="iconfont icon-music"></span>
-              </router-link>
+              <span
+                class="iconfont icon-music"
+                :class="{ active: $route.path == '/songs' }"
+              ></span>
             </el-tooltip>
           </li>
-          <li>
+          <li @click.stop="jump('/mvs')">
             <el-tooltip content="最新MV" placement="left" effect="light">
-              <router-link to="/mvs">
-                <span class="iconfont icon-mv"></span>
-              </router-link>
+              <span
+                class="iconfont icon-mv"
+                :class="{ active: $route.path == '/mvs' }"
+              ></span>
+            </el-tooltip>
+          </li>
+          <li @click.stop="jump('/mys')">
+            <el-tooltip content="我的音乐" placement="left" effect="light">
+              <span
+                class="iconfont icon-wode"
+                :class="{ active: $route.path == '/mys' }"
+              ></span>
             </el-tooltip>
           </li>
         </ul>
@@ -120,11 +132,11 @@ import {
   getSongUrl,
   getSongDetail,
   getSongLyric,
-} from "@/api/discovery";
-import aplayer from "vue-aplayer"; // 引入播放组件
-import Player from "../../components/player.vue";
+} from '@/api/discovery';
+import aplayer from 'vue-aplayer'; // 引入播放组件
+import Player from '../../components/player.vue';
 export default {
-  name: "index",
+  name: 'index',
   components: {
     aplayer,
     Player,
@@ -132,18 +144,18 @@ export default {
   data() {
     return {
       musicUrl: {
-        src: "http://m701.music.126.net/20220125180754/23e2cb57185d2b57af20fd71919c7a7a/jdymusic/obj/wo3DlMOGwrbDjj7DisKw/12783801314/6d4c/27c3/d316/32396ae3e0adf1a1d15a407b8e2269ce.mp3",
-        artist: "摩登兄弟刘宇宁",
-        pic: "https://p1.music.126.net/4cLKRV5pIyaMKSuCoqqntw==/109951166961144397.jpg",
-        theme: "pic",
-        title: "白羊",
-        lrc: "[00:00.000] 作词 : 方文山\n[00:01.000] 作曲 : Bryan（孙伟）\n[00:02.000] 编曲 : 刘苏毅\n[00:03.000] 制作人 : Bryan（孙伟）\n[00:13.55]北方的北风 有谁听懂\n[00:19.43]呼啸而过又是 什么内容\n[00:24.88]厚德可载物  爱要很专注\n[00:30.55]许下一个愿  走自己的路\n[00:35.65]\n[00:36.20]镖局的镖旗 谁来护送\n[00:41.56]故事里的人物  都在途中\n[00:46.82]这天道酬勤  问谁还清醒\n[00:52.82]与义气为邻 我豪气干云\n[00:58.17]\n[00:58.79]雪融了阴霾 虎啸春来\n[01:04.07]我在天地间豪迈 谁来精采\n[01:09.71]英雄气慨 热血涌了上来\n[01:15.20]这里的故事  变成传说 存在\n[01:23.56]\n[01:23.71]北方的北风 有谁听懂\n[01:25.08]呼啸而过是 什么内容\n[01:26.55]厚德可载物  爱要很专注\n[01:28.02]许一个愿  走自己的路\n[01:29.26]\n[01:29.94]镖局的镖旗 谁来护送\n[01:30.76]故事里的人物  都在途中\n[01:32.41]这天道酬勤  问谁还清醒\n[01:33.85]与义气为邻 我豪气干云\n[01:35.07]\n[01:35.19]我横渡沧海  去过了悬崖\n[01:37.89]欣赏过最美的 繁花盛开\n[01:40.43]这陌生的险境远在  千里外\n[01:42.85]而我的悠哉  已自成一派\n[01:45.80]\n[01:46.06]镖局的镖旗 谁来护送\n[01:51.56]故事里的人物  都在途中\n[01:56.45]这天道酬勤  问谁还清醒\n[02:02.54]与义气为邻 我豪气干云\n[02:08.22]\n[02:08.42]雪融了阴霾 虎啸春来\n[02:13.88]我在天地间豪迈 谁来精采\n[02:19.37]英雄气慨 热血涌了上来\n[02:25.01]这里的故事  变成传说 存在\n[02:33.09]\n[02:33.59]雪融了阴霾 虎啸春来\n[02:38.99]我在山水间留白 停止感慨\n[02:44.57]排山倒海  迎接新的世代\n[02:53.13]等结局精彩 谁都不准 离开\n[03:02.67]\n[03:25.44]\n[03:25.622] 吉他 : 刘苏毅\n[03:26.200] 和声 : 曾婕\n[03:26.778] 二胡 : 胡宸\n[03:27.356] 笛子 : 石磊\n[03:27.934] 箫 : 石磊\n[03:28.512] 古筝 : 周桃桃\n[03:29.090] 配唱制作人 : 丁爽\n[03:29.668] 弦乐 : 国际首席爱乐乐团\n[03:30.246] 人声录音 : 王倩倩\n[03:30.824] 人声录音室 : 横店红点录音棚\n[03:31.402] 混音 : 王路遥\n[03:31.980] 母带 : 王路遥\n[03:32.558] 监制 : Bryan（孙伟）\n[03:33.136] 音乐制作 : The U.M.C\n[03:33.714] 统筹 : 高航\n[03:34.292] 音乐营销 : 奔跑怪物\n[03:34.870] （未经许可，不得翻唱或使用）\n",
+        src: 'http://m701.music.126.net/20220125180754/23e2cb57185d2b57af20fd71919c7a7a/jdymusic/obj/wo3DlMOGwrbDjj7DisKw/12783801314/6d4c/27c3/d316/32396ae3e0adf1a1d15a407b8e2269ce.mp3',
+        artist: '摩登兄弟刘宇宁',
+        pic: 'https://p1.music.126.net/4cLKRV5pIyaMKSuCoqqntw==/109951166961144397.jpg',
+        theme: 'pic',
+        title: '白羊',
+        lrc: '[00:00.000] 作词 : 方文山\n[00:01.000] 作曲 : Bryan（孙伟）\n[00:02.000] 编曲 : 刘苏毅\n[00:03.000] 制作人 : Bryan（孙伟）\n[00:13.55]北方的北风 有谁听懂\n[00:19.43]呼啸而过又是 什么内容\n[00:24.88]厚德可载物  爱要很专注\n[00:30.55]许下一个愿  走自己的路\n[00:35.65]\n[00:36.20]镖局的镖旗 谁来护送\n[00:41.56]故事里的人物  都在途中\n[00:46.82]这天道酬勤  问谁还清醒\n[00:52.82]与义气为邻 我豪气干云\n[00:58.17]\n[00:58.79]雪融了阴霾 虎啸春来\n[01:04.07]我在天地间豪迈 谁来精采\n[01:09.71]英雄气慨 热血涌了上来\n[01:15.20]这里的故事  变成传说 存在\n[01:23.56]\n[01:23.71]北方的北风 有谁听懂\n[01:25.08]呼啸而过是 什么内容\n[01:26.55]厚德可载物  爱要很专注\n[01:28.02]许一个愿  走自己的路\n[01:29.26]\n[01:29.94]镖局的镖旗 谁来护送\n[01:30.76]故事里的人物  都在途中\n[01:32.41]这天道酬勤  问谁还清醒\n[01:33.85]与义气为邻 我豪气干云\n[01:35.07]\n[01:35.19]我横渡沧海  去过了悬崖\n[01:37.89]欣赏过最美的 繁花盛开\n[01:40.43]这陌生的险境远在  千里外\n[01:42.85]而我的悠哉  已自成一派\n[01:45.80]\n[01:46.06]镖局的镖旗 谁来护送\n[01:51.56]故事里的人物  都在途中\n[01:56.45]这天道酬勤  问谁还清醒\n[02:02.54]与义气为邻 我豪气干云\n[02:08.22]\n[02:08.42]雪融了阴霾 虎啸春来\n[02:13.88]我在天地间豪迈 谁来精采\n[02:19.37]英雄气慨 热血涌了上来\n[02:25.01]这里的故事  变成传说 存在\n[02:33.09]\n[02:33.59]雪融了阴霾 虎啸春来\n[02:38.99]我在山水间留白 停止感慨\n[02:44.57]排山倒海  迎接新的世代\n[02:53.13]等结局精彩 谁都不准 离开\n[03:02.67]\n[03:25.44]\n[03:25.622] 吉他 : 刘苏毅\n[03:26.200] 和声 : 曾婕\n[03:26.778] 二胡 : 胡宸\n[03:27.356] 笛子 : 石磊\n[03:27.934] 箫 : 石磊\n[03:28.512] 古筝 : 周桃桃\n[03:29.090] 配唱制作人 : 丁爽\n[03:29.668] 弦乐 : 国际首席爱乐乐团\n[03:30.246] 人声录音 : 王倩倩\n[03:30.824] 人声录音室 : 横店红点录音棚\n[03:31.402] 混音 : 王路遥\n[03:31.980] 母带 : 王路遥\n[03:32.558] 监制 : Bryan（孙伟）\n[03:33.136] 音乐制作 : The U.M.C\n[03:33.714] 统筹 : 高航\n[03:34.292] 音乐营销 : 奔跑怪物\n[03:34.870] （未经许可，不得翻唱或使用）\n',
       },
       musicList: [],
-      url: "",
+      url: '',
       bannerList: [],
       currentIndex: 0,
-      currentPath: "",
+      currentPath: '',
       pathStatus: true,
       navStatus: true,
       audioSt: false,
@@ -156,7 +168,7 @@ export default {
     $route: {
       handler(val, oldval) {
         this.currentPath = val.path;
-        const paths = ["/discovery", "/playlists", "/songs", "/mvs"];
+        const paths = ['/discovery', '/playlists', '/songs', '/mvs', '/mys'];
         this.pathStatus = paths.includes(val.path); // 悬浮显示页面
       },
       // 深度观察监听
@@ -169,33 +181,48 @@ export default {
     this.getBanner();
     this.currentPath = this.$route.path;
     // 注册可被弟页面调用的方法
-    this.$bus.on("change-nav", (e) => {
+    this.$bus.on('change-nav', (e) => {
       this.changeNav(e);
     });
-    this.$bus.on("change-audio", (e) => {
+    this.$bus.on('change-audio', (e) => {
       this.changeAudio(e);
     });
-    this.$bus.on("get-song-url", (e) => {
+    this.$bus.on('get-song-url', (e) => {
       this.getSongUrl(e.id);
     });
-    this.$bus.on("get-song-details", (e) => {
+    this.$bus.on('get-song-details', (e) => {
       this.getSongDetails(e.ids);
     });
   },
   mounted() {
     // 返回顶部
-    window.addEventListener("scroll", this.handleScroll, true);
+    window.addEventListener('scroll', this.handleScroll, true);
   },
   beforeDestroy() {
     // 页面销毁时注销
-    this.$bus.off("change-nav", this.changeNav);
-    this.$bus.off("change-audio", this.changeAudio);
-    window.removeEventListener("scroll", this.handleScroll);
+    this.$bus.off('change-nav', this.changeNav);
+    this.$bus.off('change-audio', this.changeAudio);
+    window.removeEventListener('scroll', this.handleScroll);
   },
   methods: {
+    // 跳转
+    jump(e) {
+      if (e == '/mys' && !this.$store.getters.user_info) {
+        this.$notify({
+          title: '未登录',
+          message: '请先登录，登录后方可访问',
+          type: 'warning',
+          duration: 0,
+        });
+        return;
+      }
+      this.$router.push({
+        path: e,
+      });
+    },
     // 获取歌曲任务队列
     getSongDetails(ids) {
-      ids = ids.join(",");
+      ids = ids.join(',');
       getSongDetail({ ids }).then((res) => {
         let taskList = [];
         res.privileges.forEach((item) => {
@@ -209,8 +236,8 @@ export default {
           taskList[i].duration = e.dt;
         });
         // 组件存储数据到vuex
-        this.$store.commit("MUSIC_LIST", taskList); // MUSIC_LIST 方法名
-        localStorage.setItem("musicList", JSON.stringify(taskList));
+        this.$store.commit('MUSIC_LIST', taskList); // MUSIC_LIST 方法名
+        localStorage.setItem('musicList', JSON.stringify(taskList));
       });
     },
     // 获取歌曲链接
@@ -224,7 +251,7 @@ export default {
     },
     // 获取歌曲详情
     getSongDetail(id) {
-      const ids = typeof id == "object" ? id.join(",") : id;
+      const ids = typeof id == 'object' ? id.join(',') : id;
       getSongDetail({ ids }).then((res) => {
         this.musicUrl.title = res.songs[0] && res.songs[0].name;
         this.musicUrl.artist =
@@ -240,14 +267,14 @@ export default {
         this.musicUrl.lrc = res.lrc.lyric;
         this.musicUrl.id = id;
         // 组件存储数据到vuex
-        this.$store.commit("CUR_MUSIC", this.musicUrl); // MUSIC_LIST 方法名
+        this.$store.commit('CUR_MUSIC', this.musicUrl); // MUSIC_LIST 方法名
         const musicUrl = JSON.stringify(this.musicUrl);
-        localStorage.setItem("curMusic", musicUrl);
+        localStorage.setItem('curMusic', musicUrl);
 
         this.$notify({
-          title: "歌曲",
-          message: "播放成功",
-          type: "success",
+          title: '歌曲',
+          message: '播放成功',
+          type: 'success',
         });
         // 底部播放器弹起
         this.playAudio = true;
@@ -285,7 +312,7 @@ export default {
     // 切换底部音乐栏状态
     changeAudioLock() {
       this.audioSt = !this.audioSt;
-      this.$bus.emit("change-audio-st", { status: this.audioSt });
+      this.$bus.emit('change-audio-st', { status: this.audioSt });
     },
     // 切换左侧导航悬浮状态
     changeNav(e) {
@@ -313,9 +340,9 @@ export default {
       if (item.encodeId != 0) {
         this.getSongUrl(item.encodeId);
       } else {
-        var jump = document.createElement("a");
+        var jump = document.createElement('a');
         jump.href = item.url;
-        jump.target = "_blank";
+        jump.target = '_blank';
         document.body.appendChild(jump);
         jump.click();
         jump.remove();
@@ -421,7 +448,7 @@ export default {
 .lock {
   position: fixed;
   bottom: 40px;
-  right: 300px;
+  right: 100px;
   width: 50px;
   height: 60px;
   border-radius: 50%;
@@ -431,9 +458,9 @@ export default {
 }
 .ban_round {
   position: fixed;
-  bottom: 32px;
-  right: 295px;
-  width: 60px;
+  bottom: 30px;
+  right: 97px;
+  width: 54px;
   height: 35px;
   background-color: #f1f3f4;
 }
@@ -443,5 +470,8 @@ export default {
   transform: translateX(570px);
   bottom: 180px;
   z-index: 1;
+}
+.active {
+  color: #dd6d60;
 }
 </style>

@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { Message } from 'element-ui';
 
 export function request(config) {
     const instance = axios.create({
@@ -30,6 +31,7 @@ export function request(config) {
     instance.interceptors.response.use(res => {
         return res.data
     },error => {
+        Message.error(error.response.data.message);
         // 如果有需要授权才可以访问的接口，统一在这里去login授权
 
         // 如果有错误，这里去设置处理，显示错误信息

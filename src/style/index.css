@@ -71,6 +71,9 @@
 .mt20 {
   margin-top: 20px;
 }
+.mt25 {
+  margin-top: 25px;
+}
 .mt30 {
   margin-top: 30px !important;
 }
@@ -127,6 +130,9 @@
 }
 .mb20 {
   margin-bottom: 20px;
+}
+.mb40 {
+  margin-bottom: 40px;
 }
 .cc82 {
   color: #e08c82;

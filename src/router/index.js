@@ -4,6 +4,7 @@ import discovery from '@/views/siderBar/discovery.vue'
 import playlists from '@/views/siderBar/playlists.vue'
 import songs from '@/views/siderBar/songs.vue'
 import mvs from '@/views/siderBar/mvs.vue'
+import mys from '@/views/siderBar/mys.vue'
 import result from '@/views/search/result.vue'
 import playsDetail from '@/views/songsDetail/playsDetail.vue'
 import mvDetail from '@/views/songsDetail/mvDetail.vue'
@@ -31,6 +32,11 @@ const routes = [
     path: '/mvs',
     name: mvs,
     component: mvs,
+  },
+  {
+    path: '/mys',
+    name: mys,
+    component: mys,
   },
   {
     path: '/result',

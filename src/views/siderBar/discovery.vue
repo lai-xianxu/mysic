@@ -1,24 +1,5 @@
 <template>
   <div class="discovery-container">
-    <!-- 轮播图 -->
-    <!-- <el-carousel
-      class=""
-      :interval="4000"
-      height="300px"
-      @change="changeCarousel"
-    >
-      <el-carousel-item
-        v-for="(item,index) in bannerList"
-        :key="index"
-      >
-        <img
-          :src="item.imageUrl + '?param=1100y460'"
-          @click="handleBanner(item)"
-          alt=""
-        />
-      </el-carousel-item>
-    </el-carousel> -->
-
     <!-- 推荐歌单 -->
     <div class="recommend">
       <h3 class="title">推荐歌单</h3>
@@ -111,9 +92,9 @@ import {
   newsong,
   // getSongUrl,
   getSongMV,
-} from "@/api/discovery";
+} from '@/api/discovery';
 export default {
-  name: "discovery",
+  name: 'discovery',
   data() {
     return {
       bannerList: [],
@@ -131,9 +112,9 @@ export default {
       if (item.encodeId != 0) {
         this.getSongUrl(item.encodeId, [{ id: item.encodeId }]);
       } else {
-        var jump = document.createElement("a");
+        var jump = document.createElement('a');
         jump.href = item.url;
-        jump.target = "_blank";
+        jump.target = '_blank';
         document.body.appendChild(jump);
         jump.click();
         jump.remove();
@@ -171,13 +152,13 @@ export default {
       //   this.$parent.musicUrl = url;
       // });
       const ids = list.map((x) => x.id);
-      this.$bus.emit("get-song-url", { id });
-      this.$bus.emit("get-song-details", { ids });
+      this.$bus.emit('get-song-url', { id });
+      this.$bus.emit('get-song-details', { ids });
     },
     // 跳转歌单详情页
     jumpPlayDetail(id) {
       this.$router.push({
-        path: "/playsDetail",
+        path: '/playsDetail',
         query: {
           id,
         },
@@ -186,7 +167,7 @@ export default {
     // 跳转MV详情页
     jumpMVDetail(id) {
       this.$router.push({
-        path: "/mvDetail",
+        path: '/mvDetail',
         query: {
           id,
         },
@@ -196,7 +177,7 @@ export default {
 };
 </script>
 
-<style >
+<style>
 .song-name {
   width: 160px;
 }

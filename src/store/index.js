@@ -2,11 +2,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import music from './music'
+import use from './use'
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
   modules: {
-    music
+    music,
+    use
   },
 })
 export default store
