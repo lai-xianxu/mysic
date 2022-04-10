@@ -1,6 +1,6 @@
 <template>
   <!-- v-loading="audio.waiting" -->
-  <div class="di main-wrap fcc">
+  <div class="di main-wrap fcc" @click.self="jumpSongDetail">
     <!-- 这里设置了ref属性后，在vue组件中，就可以用this.$refs.audio来访问该dom元素 -->
     <audio
       v-if="music.src && playLock"
@@ -50,8 +50,8 @@
       <div class="fsc">
         <el-tooltip class="item" effect="dark" content="上一曲" placement="top">
           <i
-            class="iconfont icon-shangyishou mr30 fs20"
-            @click="prev(music.id)"
+            class="iconfont icon-shangyishou mr30 fs20 hover"
+            @click.stop="prev(music.id)"
           ></i>
         </el-tooltip>
 
@@ -61,16 +61,19 @@
           :content="audio.playing | transPlayPause"
           placement="top"
         >
-          <div class="fsc" @click="startPlayOrPause">
-            <div v-if="!audio.playing" class="iconfont icon-bofang fs50"></div>
-            <div v-else class="iconfont icon-zanting fs40"></div>
+          <div class="fsc" @click.stop="startPlayOrPause">
+            <div
+              v-if="!audio.playing"
+              class="iconfont icon-bofang fs50 hover"
+            ></div>
+            <div v-else class="iconfont icon-zanting fs40 hover"></div>
           </div>
         </el-tooltip>
 
         <el-tooltip class="item" effect="dark" content="下一曲" placement="top">
           <i
-            class="iconfont icon-xiayishou mr30 fs20"
-            @click="next(music.id, curIcon)"
+            class="iconfont icon-xiayishou mr30 fs20 hover"
+            @click.stop="next(music.id, curIcon)"
           ></i>
         </el-tooltip>
       </div>
@@ -79,7 +82,7 @@
       <div class="fsc c999">
         <!-- 喜欢 -->
         <el-tooltip class="item" effect="dark" content="喜欢" placement="top">
-          <i class="iconfont icon-jushoucang mr30"></i>
+          <i class="iconfont icon-jushoucang mr30 hover"></i>
         </el-tooltip>
         <!-- 下载 -->
         <el-tooltip class="item" effect="dark" content="下载" placement="top">
@@ -87,14 +90,11 @@
             :href="music.src"
             v-if="!controlList.noDownload && music.src"
             target="_blank"
-            class="download mr30"
+            class="download mr30 hover"
             download
           >
             <i
-              class="
-                iconfont
-                icon-cangpeitubiao_xiazaipandiandanxiazaidayinmoban
-              "
+              class="iconfont icon-cangpeitubiao_xiazaipandiandanxiazaidayinmoban"
             ></i>
           </a>
         </el-tooltip>
@@ -105,7 +105,10 @@
           :content="audio.speed | transSpeed"
           placement="top"
         >
-          <i class="iconfont icon-kuaijin mr30" @click="changeSpeed"></i>
+          <i
+            class="iconfont icon-kuaijin mr30 hover"
+            @click.stop="changeSpeed"
+          ></i>
         </el-tooltip>
         <!-- 播放顺序 -->
         <el-tooltip
@@ -115,9 +118,9 @@
           placement="top"
         >
           <i
-            class="iconfont mr30"
+            class="iconfont mr30 hover"
             :class="playIcon[curIcon]"
-            @click="setPlayIcon"
+            @click.stop="setPlayIcon"
           ></i>
         </el-tooltip>
         <!-- 列表 -->
@@ -141,13 +144,13 @@
                 </td>
                 <td></td>
                 <td class="tar fec">
-                  <div @click="clearList">
+                  <div @click.stop="clearList">
                     <i class="iconfont icon-shanchu mr5"></i>
                     <span>清空列表</span>
                   </div>
                   <i
                     class="iconfont icon-shanchu1 ml15"
-                    @click="popListShow = false"
+                    @click.stop="popListShow = false"
                   ></i>
                 </td>
               </tr>
@@ -159,7 +162,7 @@
                 v-for="(item, i) in musicList"
                 :class="{ th_tr_active: activeMusic == i }"
                 :key="item.id"
-                @click="handlePlay(item.id)"
+                @click.stop="handlePlay(item.id)"
               >
                 <td class="w250 ellipsis1">
                   <i>{{ i + 1 }}</i>
@@ -186,17 +189,17 @@
             content="列表"
             placement="top"
           >
-            <i class="iconfont icon-liebiao mr30"></i>
+            <i class="iconfont icon-liebiao mr30 hover"></i>
           </el-tooltip>
         </el-popover>
 
         <!-- 音量 -->
         <div class="fsc">
           <el-tooltip class="item" effect="dark" content="音量" placement="top">
-            <div class="fsc" @click="startMutedOrNot">
+            <div class="fsc" @click.stop="startMutedOrNot">
               <i
                 v-if="volume != 0 && !audio.muted"
-                class="iconfont icon-yinliang"
+                class="iconfont icon-yinliang hover"
               ></i>
               <i v-else class="iconfont icon-24gl-volumeCross"></i>
             </div>
@@ -215,10 +218,10 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from "vuex";
+import { mapGetters, mapState } from 'vuex';
 function realFormatSecond(second) {
   var secondType = typeof second;
-  if (secondType === "number" || secondType === "string") {
+  if (secondType === 'number' || secondType === 'string') {
     second = parseInt(second);
 
     var hours = Math.floor(second / 3600);
@@ -228,15 +231,15 @@ function realFormatSecond(second) {
 
     return (
       // hours + ":" + ("0" + mimute).slice(-2) + ":" + ("0" + second).slice(-2)
-      ("0" + mimute).slice(-2) + ":" + ("0" + second).slice(-2)
+      ('0' + mimute).slice(-2) + ':' + ('0' + second).slice(-2)
     );
   } else {
-    return "00:00";
+    return '00:00';
   }
 }
 
 export default {
-  name: "Aplayer",
+  name: 'Aplayer',
   props: {
     theSpeeds: {
       type: Array,
@@ -246,7 +249,7 @@ export default {
     },
     theControlList: {
       type: String,
-      default: "",
+      default: '',
     },
   },
   data() {
@@ -259,7 +262,7 @@ export default {
         muted: false,
         speed: 1,
         waiting: true,
-        preload: "auto",
+        preload: 'auto',
       },
 
       sliderTime: 0,
@@ -284,10 +287,10 @@ export default {
       activeMusic: 0,
       popListShow: false,
       playIcon: {
-        order: "icon-hanhan-01-01", // 顺序
-        random: "icon-suijibofang", // 随机
-        theCirculation: "icon-24gl-repeatOnce2", // 单曲循环
-        loop: "icon-24gl-repeat2", // 顺序
+        order: 'icon-hanhan-01-01', // 顺序
+        random: 'icon-suijibofang', // 随机
+        theCirculation: 'icon-24gl-repeatOnce2', // 单曲循环
+        loop: 'icon-24gl-repeat2', // 顺序
       },
       playLock: true,
     };
@@ -295,8 +298,8 @@ export default {
   computed: {
     // 监听vuex里的数据变化
     ...mapGetters({
-      theUrl: "curMusic",
-      musicList: "musicList",
+      theUrl: 'curMusic',
+      musicList: 'musicList',
     }),
     ...mapState({
       curIcon: (state) => state.music.curIcon,
@@ -328,6 +331,15 @@ export default {
     // this.curIcon = this.$store.state.music.curIcon;
   },
   methods: {
+    // 跳转歌曲详情
+    jumpSongDetail() {
+      this.$router.push({
+        path: '/detail',
+        query: {
+          id: this.music.id,
+        },
+      });
+    },
     // 歌曲播放完毕
     endPlay(id) {
       this.next(id, this.curIcon);
@@ -335,29 +347,29 @@ export default {
     // 改变播放顺序
     setPlayIcon() {
       let e = this.curIcon;
-      if (e == "order") {
-        e = "random";
-      } else if (e == "random") {
-        e = "theCirculation";
-      } else if (e == "theCirculation") {
-        e = "loop";
-      } else if (e == "loop") {
-        e = "order";
+      if (e == 'order') {
+        e = 'random';
+      } else if (e == 'random') {
+        e = 'theCirculation';
+      } else if (e == 'theCirculation') {
+        e = 'loop';
+      } else if (e == 'loop') {
+        e = 'order';
       }
-      this.$store.commit("CUR_ICON", e); // MUSIC_LIST 方法名
-      localStorage.setItem("curIcon", e);
+      this.$store.commit('CUR_ICON', e); // MUSIC_LIST 方法名
+      localStorage.setItem('curIcon', e);
     },
     // 当前播放顺序
     getplayName(e) {
       switch (e) {
-        case "order":
-          return "顺序";
-        case "random":
-          return "随机";
-        case "theCirculation":
-          return "单曲循环";
-        case "loop":
-          return "循环";
+        case 'order':
+          return '顺序';
+        case 'random':
+          return '随机';
+        case 'theCirculation':
+          return '单曲循环';
+        case 'loop':
+          return '循环';
       }
     },
     // 删除当前歌曲
@@ -365,61 +377,61 @@ export default {
       const i = this.musicList.findIndex((e) => e.id == id);
       this.musicList.splice(i, 1);
       // 组件存储数据到vuex
-      this.$store.commit("MUSIC_LIST", this.musicList); // MUSIC_LIST 方法名
-      localStorage.setItem("musicList", JSON.stringify(this.musicList));
+      this.$store.commit('MUSIC_LIST', this.musicList); // MUSIC_LIST 方法名
+      localStorage.setItem('musicList', JSON.stringify(this.musicList));
     },
     // 播放点击歌曲
     handlePlay(id) {
-      this.$bus.emit("get-song-url", { id });
+      this.$bus.emit('get-song-url', { id });
     },
     // 清空任务列表
     clearList() {
-      this.$store.commit("MUSIC_LIST", []); // MUSIC_LIST 方法名
-      localStorage.setItem("musicList", JSON.stringify([]));
+      this.$store.commit('MUSIC_LIST', []); // MUSIC_LIST 方法名
+      localStorage.setItem('musicList', JSON.stringify([]));
     },
     // 上一曲
     prev(id) {
       if (!this.musicList.length) {
-        this.$message.warning("当前任务队列无内容，请先添加");
+        this.$message.warning('当前任务队列无内容，请先添加');
         return;
       }
       const i = this.musicList.findIndex((e) => e.id == id);
       if (i == 0) {
         this.$message({
           showClose: true,
-          message: "当前已经是第一曲",
-          type: "warning",
+          message: '当前已经是第一曲',
+          type: 'warning',
           duration: 0,
         });
         return;
       }
 
       const newId = this.musicList[i - 1].id;
-      this.$bus.emit("get-song-url", { id: newId });
+      this.$bus.emit('get-song-url', { id: newId });
     },
     // 下一曲
     next(id, e) {
       if (!this.musicList.length) {
-        this.$message.warning("当前任务队列无内容，请先添加");
+        this.$message.warning('当前任务队列无内容，请先添加');
         return;
       }
       // 判断时什么播放顺序
-      let newId = "";
+      let newId = '';
       // 顺序
-      if (e == "order") {
+      if (e == 'order') {
         const i = this.musicList.findIndex((e) => e.id == id);
         if (i == this.musicList.length - 1) {
           this.$message({
             showClose: true,
-            message: "当前已经是最后一曲",
-            type: "warning",
+            message: '当前已经是最后一曲',
+            type: 'warning',
             duration: 0,
           });
           return;
         }
         newId = this.musicList[i + 1].id;
         // 随机
-      } else if (e == "random") {
+      } else if (e == 'random') {
         const i2 = this.musicList.findIndex((e) => e.id == id);
         const i = Math.floor(
           Math.random() * (this.musicList.length - 1 - 0 + 1) + 0
@@ -430,14 +442,14 @@ export default {
           newId = this.musicList[i].id;
         }
         // 单曲循环
-      } else if (e == "theCirculation") {
+      } else if (e == 'theCirculation') {
         this.playLock = false;
         this.$nextTick(() => {
           this.playLock = true;
         });
         return;
         // 循环
-      } else if (e == "loop") {
+      } else if (e == 'loop') {
         const i = this.musicList.findIndex((e) => e.id == id);
         if (i == this.musicList.length - 1) {
           newId = this.musicList[0].id;
@@ -445,10 +457,10 @@ export default {
           newId = this.musicList[i + 1].id;
         }
       }
-      this.$bus.emit("get-song-url", { id: newId });
+      this.$bus.emit('get-song-url', { id: newId });
     },
     setControlList() {
-      let controlList = this.theControlList.split(" ");
+      let controlList = this.theControlList.split(' ');
       controlList.forEach((item) => {
         if (this.controlList[item] !== undefined) {
           this.controlList[item] = true;
@@ -468,12 +480,12 @@ export default {
     },
     // 音量条toolTip
     formatVolumeToolTip(index) {
-      return "音量: " + index;
+      return '音量: ' + index;
     },
     // 进度条toolTip
     formatProcessToolTip(index = 0) {
       index = parseInt((this.audio.maxTime / 100) * index);
-      return "进度: " + realFormatSecond(index);
+      return '进度: ' + realFormatSecond(index);
     },
     // 音量改变
     changeVolume(index = 0) {
@@ -482,8 +494,8 @@ export default {
     },
     // 播放跳转
     changeCurrentTime(index) {
-      console.log(this.$refs.audio.currentTime, "this.$refs.audio.currentTime");
-      console.log(index, "5466666666");
+      console.log(this.$refs.audio.currentTime, 'this.$refs.audio.currentTime');
+      console.log(index, '5466666666');
       this.$refs.audio.currentTime = parseInt(
         (index / 100) * this.audio.maxTime
       );
@@ -502,10 +514,16 @@ export default {
     // 当音频暂停
     onPause() {
       this.audio.playing = false;
+
+      // 存状态，用作唱片旋转
+      this.$store.commit('PLAYING', false);
     },
     // 当发生错误, 就出现loading状态
     onError() {
       this.audio.waiting = true;
+
+      // 存状态，用作唱片旋转
+      this.$store.commit('PLAYING', false);
     },
     // 当音频开始等待
     onWaiting(res) {
@@ -513,6 +531,9 @@ export default {
     },
     // 当音频开始播放
     onPlay(res) {
+      // 存状态，用作唱片旋转
+      this.$store.commit('PLAYING', true);
+
       console.log(res);
       this.audio.playing = true;
       this.audio.loading = false;
@@ -523,7 +544,7 @@ export default {
 
       let target = res.target;
 
-      let audios = document.getElementsByTagName("audio");
+      let audios = document.getElementsByTagName('audio');
 
       [...audios].forEach((item) => {
         if (item !== target) {
@@ -543,7 +564,7 @@ export default {
     // 当加载语音流元数据完成后，会触发该事件的回调函数
     // 语音元数据主要是语音的长度之类的数据
     onLoadedmetadata(res) {
-      console.log("loadedmetadata");
+      console.log('loadedmetadata');
       console.log(res);
       this.audio.waiting = false;
       this.audio.maxTime = parseInt(res.target.duration);
@@ -554,13 +575,13 @@ export default {
       return realFormatSecond(second);
     },
     transPlayPause(value) {
-      return value ? "暂停" : "播放";
+      return value ? '暂停' : '播放';
     },
     transMutedOrNot(value) {
-      return value ? "放音" : "静音";
+      return value ? '放音' : '静音';
     },
     transSpeed(value) {
-      return "快进: x" + value;
+      return '快进: x' + value;
     },
   },
   created() {
@@ -575,6 +596,7 @@ export default {
   padding: 0 45px;
   width: 100%;
   /* height: 80px; */
+  cursor: pointer;
 }
 .slider {
   display: inline-block;
@@ -671,7 +693,7 @@ table {
 .w200 {
   width: 200px;
 }
-.el-popper[x-placement^="top"] {
+.el-popper[x-placement^='top'] {
   max-height: 400px !important;
   overflow-y: scroll;
 }
@@ -680,5 +702,8 @@ table {
 }
 .w250 {
   width: 250px;
+}
+.hover:hover {
+  color: #e08c82;
 }
 </style>

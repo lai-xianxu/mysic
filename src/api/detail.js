@@ -75,7 +75,43 @@ export function getArtistsInfo(data){
 // 获取Mv评论
 export function getMvComment(data){
     return request({
-        url: 'comment/mv',
+        url: '/comment/mv',
+        method: 'get',
+        params: data
+    })
+}
+
+// 获取歌曲详情
+export function getSongDetail(data){
+    return request({
+        url: '/song/detail',
+        method: 'get',
+        params: data
+    })
+}
+
+// 获取歌曲歌词
+export function getlyric(data){
+    return request({
+        url: '/lyric',
+        method: 'get',
+        params: data
+    })
+}
+
+// 获取歌曲评论
+export function getCommitMusic(data){
+    return request({
+        url: '/comment/music',
+        method: 'get',
+        params: data
+    })
+}
+
+// 获取相似音乐
+export function getSimiSong(data){
+    return request({
+        url: '/simi/song',
         method: 'get',
         params: data
     })

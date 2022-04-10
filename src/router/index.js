@@ -8,6 +8,7 @@ import mys from '@/views/siderBar/mys.vue'
 import result from '@/views/search/result.vue'
 import playsDetail from '@/views/songsDetail/playsDetail.vue'
 import mvDetail from '@/views/songsDetail/mvDetail.vue'
+import detail from '@/views/songsDetail/detail.vue'
 
 Vue.use(VueRouter)
 
@@ -52,6 +53,11 @@ const routes = [
     path: '/mvDetail',
     name: mvDetail,
     component: mvDetail,
+  },
+  {
+    path: '/detail',
+    name: detail,
+    component: detail,
   }
 ]
 

@@ -1,45 +1,35 @@
 <template>
   <div class="mv-container">
     <div class="mv-wrap">
-      <h3 class="title">{{mvInfo.name}}</h3>
+      <h3 class="title">{{ mvInfo.name }}</h3>
       <!-- mv -->
       <div class="video-wrap">
-        <video
-          controls
-          autoplay
-          :src="mvUrl"
-        ></video>
+        <video controls autoplay :src="mvUrl"></video>
       </div>
       <!-- mv信息 -->
       <div class="info-wrap">
         <div class="singer-info">
           <div class="avatar-wrap">
-            <img
-              :src="artist.img1v1Url + '?param=70y70'"
-              alt=""
-            />
+            <img :src="artist.img1v1Url + '?param=70y70'" alt="" />
           </div>
-          <span class="name">{{artist.name}}</span>
+          <span class="name">{{ artist.name }}</span>
         </div>
         <div class="mv-info">
-          <h2 class="title">{{mvInfo.name}}</h2>
-          <span class="date">发布：{{mvInfo.publishTime}}</span>
-          <span class="number">播放：{{mvInfo.playCount | playNumFilter}}次</span>
-          <p class="desc">{{mvInfo.desc}}</p>
+          <h2 class="title">{{ mvInfo.name }}</h2>
+          <span class="date">发布：{{ mvInfo.publishTime }}</span>
+          <span class="number"
+            >播放：{{ mvInfo.playCount | playNumFilter }}次</span
+          >
+          <p class="desc">{{ mvInfo.desc }}</p>
         </div>
       </div>
       <!-- 精彩评论 -->
-      <div
-        class="comment-wrap"
-        v-if="hotComments.length"
-      >
-        <p class="title">精彩评论<span class="number">({{hotComments.length}})</span></p>
+      <div class="comment-wrap" v-if="hotComments.length">
+        <p class="title">
+          精彩评论<span class="number">({{ hotComments.length }})</span>
+        </p>
         <div class="comments-wrap">
-          <div
-            class="item"
-            v-for="(item,index) in hotComments"
-            :key="index"
-          >
+          <div class="item" v-for="(item, index) in hotComments" :key="index">
             <div class="icon-wrap">
               <img
                 :src="item.user && item.user.avatarUrl + '?param=50y50'"
@@ -48,30 +38,27 @@
             </div>
             <div class="content-wrap">
               <div class="content">
-                <span class="name">{{item.user && item.user.nickname}}：</span>
-                <span class="comment">{{item.content}}</span>
+                <span class="name"
+                  >{{ item.user && item.user.nickname }}：</span
+                >
+                <span class="comment">{{ item.content }}</span>
               </div>
-              <div
-                class="re-content"
-                v-if="item.beReplied.length"
-              >
+              <div class="re-content" v-if="item.beReplied.length">
                 <span class="name">{item.beReplied[0].user.nickname}}：</span>
-                <span class="comment">{{item.beReplied[0].content}}</span>
+                <span class="comment">{{ item.beReplied[0].content }}</span>
               </div>
-              <div class="date">{{item.time | dataFormat}}</div>
+              <div class="date">{{ item.time | dataFormat }}</div>
             </div>
           </div>
         </div>
       </div>
       <!-- 最新评论 -->
       <div class="comment-wrap">
-        <p class="title">最新评论<span class="number">({{total}})</span></p>
+        <p class="title">
+          最新评论<span class="number">({{ total }})</span>
+        </p>
         <div class="comments-wrap">
-          <div
-            class="item"
-            v-for="(item,index) in comments"
-            :key="index"
-          >
+          <div class="item" v-for="(item, index) in comments" :key="index">
             <div class="icon-wrap">
               <img
                 :src="item.user && item.user.avatarUrl + '?param=50y50'"
@@ -80,17 +67,18 @@
             </div>
             <div class="content-wrap">
               <div class="content">
-                <span class="name">{{item.user && item.user.nickname}}：</span>
-                <span class="comment">{{item.content}}</span>
+                <span class="name"
+                  >{{ item.user && item.user.nickname }}：</span
+                >
+                <span class="comment">{{ item.content }}</span>
               </div>
-              <div
-                class="re-content"
-                v-if="item.beReplied.length"
-              >
-                <span class="name">{{item.beReplied[0].user.nickname}}：</span>
-                <span class="comment">{{item.beReplied[0].content}}</span>
+              <div class="re-content" v-if="item.beReplied.length">
+                <span class="name"
+                  >{{ item.beReplied[0].user.nickname }}：</span
+                >
+                <span class="comment">{{ item.beReplied[0].content }}</span>
               </div>
-              <div class="date">{{item.time | dataFormat}}</div>
+              <div class="date">{{ item.time | dataFormat }}</div>
             </div>
           </div>
         </div>
@@ -112,26 +100,19 @@
       <h3 class="title">相关推荐</h3>
       <div class="mvs">
         <div class="items">
-          <div
-            class="item"
-            v-for="item in simiMvList"
-            :key="item.id"
-          >
+          <div class="item" v-for="item in simiMvList" :key="item.id">
             <div class="img-wrap">
-              <img
-                :src="item.cover + '?param=180y94'"
-                alt=""
-              />
+              <img :src="item.cover + '?param=180y94'" alt="" />
               <span class="iconfont icon-play"></span>
               <div class="num-wrap">
                 <div class="iconfont icon-play"></div>
-                <div class="num">{{item.playCount}}</div>
+                <div class="num">{{ item.playCount | playNumFilter }}</div>
               </div>
-              <span class="time">{{item.duration | DurationFilter}}</span>
+              <span class="time">{{ item.duration | DurationFilter }}</span>
             </div>
             <div class="info-wrap">
-              <div class="name">{{item.name}}</div>
-              <div class="singer">{{item.artistName}}</div>
+              <div class="name">{{ item.name }}</div>
+              <div class="singer">{{ item.artistName }}</div>
             </div>
           </div>
         </div>
@@ -147,9 +128,9 @@ import {
   getMvDetail,
   getArtistsInfo,
   getMvComment,
-} from "@/api/detail";
+} from '@/api/detail';
 export default {
-  name: "mv",
+  name: 'mv',
   data() {
     return {
       // 总条数
@@ -159,10 +140,10 @@ export default {
       pageIndex: 1,
       // 页容量
       limit: 10,
-      mvUrl: "",
+      mvUrl: '',
       simiMvList: [],
       mvInfo: {},
-      artistsId: "",
+      artistsId: '',
       artist: {},
       hotComments: [],
       comments: [],
@@ -236,4 +217,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.mv-container {
+  padding: 0 15px;
+}
+</style>

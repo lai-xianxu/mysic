@@ -63,9 +63,9 @@
 </template>
 
 <script>
-import { getHighquality, getPlaylist } from "@/api/discovery";
+import { getHighquality, getPlaylist } from '@/api/discovery';
 export default {
-  name: "recommend",
+  name: 'recommend',
   data() {
     return {
       // 总条数
@@ -77,20 +77,20 @@ export default {
       playList: [],
       activeIndex: 0,
       tagList: [
-        "全部",
-        "欧美",
-        "华语",
-        "流行",
-        "说唱",
-        "摇滚",
-        "民谣",
-        "电子",
-        "轻音乐",
-        "影视原声",
-        "ACG",
-        "怀旧",
-        "治愈",
-        "旅行",
+        '全部',
+        '欧美',
+        '华语',
+        '流行',
+        '说唱',
+        '摇滚',
+        '民谣',
+        '电子',
+        '轻音乐',
+        '影视原声',
+        'ACG',
+        '怀旧',
+        '治愈',
+        '旅行',
       ],
     };
   },
@@ -112,7 +112,7 @@ export default {
       // 精品推荐
       getHighquality({
         limit: 1,
-        cat: "全部",
+        cat: '全部',
       }).then((res) => {
         this.highqualitySong = res.playlists[0];
         this.total = res.total;
@@ -120,8 +120,8 @@ export default {
     },
     // 获取歌单列表
     getPlaylist(item) {
-      console.log(item, "iiiiiii");
-      let cat = item || "全部";
+      console.log(item, 'iiiiiii');
+      let cat = item || '全部';
       getPlaylist({
         cat,
         limit: this.pageSize,
@@ -138,7 +138,7 @@ export default {
     // 跳转歌单详情页
     jumpPlayDetail(id) {
       this.$router.push({
-        path: "/playsDetail",
+        path: '/playsDetail',
         query: {
           id,
         },
@@ -148,5 +148,8 @@ export default {
 };
 </script>
 
-<style >
+<style>
+.playlists-container {
+  padding: 0 15px;
+}
 </style>

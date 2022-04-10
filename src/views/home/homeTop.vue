@@ -137,16 +137,19 @@
           @click.stop="loginShow = true"
           >登录</a
         >
-        <el-popover v-else placement="bottom" trigger="hover">
-          <div class="cpr sign_out" @click.stop="logout">退出登录</div>
-          <el-avatar
-            slot="reference"
-            :size="30"
-            fit="cover"
-            :src="userInfo.avatarUrl"
-            class="mr20 cpr"
-          ></el-avatar>
-        </el-popover>
+        <div class="fsc" v-else>
+          <div class="mr5 ellipsis mw115">{{ userInfo.nickname }}</div>
+          <el-popover placement="bottom" trigger="hover">
+            <div class="cpr sign_out" @click.stop="logout">退出登录</div>
+            <el-avatar
+              slot="reference"
+              :size="30"
+              fit="cover"
+              :src="userInfo.avatarUrl"
+              class="mr20 cpr"
+            ></el-avatar>
+          </el-popover>
+        </div>
 
         <!-- 右侧悬浮控制按钮 -->
         <div class="fsc">
@@ -381,6 +384,9 @@ export default {
 }
 .sign_out:hover {
   color: #e08c82;
+}
+.mw115 {
+  max-width: 115px;
 }
 /* 修改loading加载时的颜色 */
 ::v-deep .el-loading-spinner .path {

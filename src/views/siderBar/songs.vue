@@ -55,32 +55,32 @@
 </template>
 
 <script>
-import { getNewSong } from "@/api/discovery";
+import { getNewSong } from '@/api/discovery';
 export default {
-  name: "songs",
+  name: 'songs',
   data() {
     return {
       newSongList: [],
       typeList: [
         {
-          name: "全部",
-          id: "0",
+          name: '全部',
+          id: '0',
         },
         {
-          name: "华语",
-          id: "7",
+          name: '华语',
+          id: '7',
         },
         {
-          name: "欧美",
-          id: "96",
+          name: '欧美',
+          id: '96',
         },
         {
-          name: "日本",
-          id: "8",
+          name: '日本',
+          id: '8',
         },
         {
-          name: "韩国",
-          id: "16",
+          name: '韩国',
+          id: '16',
         },
       ],
       activeIndex: 0,
@@ -94,7 +94,7 @@ export default {
     getNewSong(id) {
       const type = id || 0;
       getNewSong({ type }).then((res) => {
-        console.log(res, "rrrrrrrr");
+        console.log(res, 'rrrrrrrr');
         this.newSongList = res.data;
       });
     },
@@ -115,14 +115,17 @@ export default {
       //   this.$parent.musicUrl = url;
       // });
       const ids = list.map((x) => x.id);
-      this.$bus.emit("get-song-url", { id });
-      this.$bus.emit("get-song-details", { ids });
+      this.$bus.emit('get-song-url', { id });
+      this.$bus.emit('get-song-details', { ids });
     },
   },
 };
 </script>
 
 <style scoped>
+.songs-container {
+  padding: 0 15px;
+}
 .el-table.playlit-table th {
   text-align: left !important;
 }

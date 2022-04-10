@@ -88,9 +88,9 @@
 </template>
 
 <script>
-import { getNewMv } from "@/api/discovery";
+import { getNewMv } from '@/api/discovery';
 export default {
-  name: "mvs",
+  name: 'mvs',
   data() {
     return {
       // 总条数
@@ -99,15 +99,15 @@ export default {
       pageSize: 16,
       pageIndex: 1,
       mvList: [],
-      areaList: ["全部", "内地", "港台", "欧美", "日本", "韩国"],
-      typeList: ["全部", "官方版", "原声", "现场版", "网易出品"],
-      orderList: ["上升最快", "最热", "最新"],
+      areaList: ['全部', '内地', '港台', '欧美', '日本', '韩国'],
+      typeList: ['全部', '官方版', '原声', '现场版', '网易出品'],
+      orderList: ['上升最快', '最热', '最新'],
       areaIndex: 0,
       typeIndex: 0,
       orderIndex: 0,
-      area: "全部",
-      type: "全部",
-      order: "上升最快",
+      area: '全部',
+      type: '全部',
+      order: '上升最快',
     };
   },
   created() {
@@ -135,7 +135,7 @@ export default {
         order: this.order,
         offset: (this.pageIndex - 1) * this.pageSize,
       }).then((res) => {
-        console.log(res, "rrrr");
+        console.log(res, 'rrrr');
         this.mvList = res.data;
         this.total = res.count ? res.count : this.total;
       });
@@ -161,7 +161,7 @@ export default {
     // 跳转MV详情页
     jumpMVDetail(id) {
       this.$router.push({
-        path: "/mvDetail",
+        path: '/mvDetail',
         query: {
           id,
         },
@@ -172,6 +172,9 @@ export default {
 </script>
 
 <style scoped>
+.mvs-container {
+  padding: 0 0 0 20px;
+}
 .singer {
   font-style: italic !important;
   color: #333 !important;

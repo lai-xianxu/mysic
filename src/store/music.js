@@ -4,16 +4,21 @@
 const state = {
   curMusic: localStorage.getItem('curMusic') || '',
   musicList: localStorage.getItem('musicList') || '',
-  curIcon: localStorage.getItem('curIcon') || 'order'
+  curIcon: localStorage.getItem('curIcon') || 'order',
+  playing: false
 }
 const getters = {
   // 任务列表
-  musicList: state => {
+  musicList: (state) => {
     return (state.musicList ? JSON.parse(state.musicList) : [])
   },
   // 当前音乐
-  curMusic: state => {
+  curMusic: (state) => {
     return (state.curMusic ? JSON.parse(state.curMusic) : {})
+  },
+  // 当前歌曲播放状态
+  playing: (state) => {
+    return state.playing
   }
 }
 const mutations = {
@@ -29,6 +34,10 @@ const mutations = {
 
   CUR_ICON: (state,params) => {
     state.curIcon = params
+  },
+
+  PLAYING: (state,params) => {
+    state.playing = params
   },
 }
 export default {

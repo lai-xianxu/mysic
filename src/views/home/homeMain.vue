@@ -275,6 +275,7 @@ export default {
           title: '歌曲',
           message: '播放成功',
           type: 'success',
+          duration: 1500,
         });
         // 底部播放器弹起
         this.playAudio = true;
@@ -353,6 +354,9 @@ export default {
 </script>
 
 <style scoped>
+.index-container {
+  background-color: #f9f9f9;
+}
 .min_main {
   min-height: 102vh;
 }
@@ -404,7 +408,7 @@ export default {
   left: 0;
   width: 100%;
   height: 500px;
-  filter: blur(30px);
+  filter: blur(20px);
   transform: scale(10);
 }
 .pr {

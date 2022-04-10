@@ -173,13 +173,13 @@
 </template>
 
 <script>
-import { detail, playlistAll, hotComment, playlistComment } from "@/api/detail";
+import { detail, playlistAll, hotComment, playlistComment } from '@/api/detail';
 // import { getSongUrl } from "@/api/discovery";
 export default {
-  name: "playlist",
+  name: 'playlist',
   data() {
     return {
-      activeIndex: "1",
+      activeIndex: '1',
       pageIndex: 1,
       pageSize: 10,
       // 总条数
@@ -221,7 +221,7 @@ export default {
     // 获取歌单列表所有歌曲
     playlistAll() {
       const idList = this.songInfo.trackIds.map((x) => x.id);
-      const ids = idList.join(",");
+      const ids = idList.join(',');
       playlistAll({
         ids,
       }).then((res) => {
@@ -240,8 +240,8 @@ export default {
       //   this.$parent.musicUrl = url;
       // });
       const ids = list.map((x) => x.id);
-      this.$bus.emit("get-song-url", { id });
-      this.$bus.emit("get-song-details", { ids });
+      this.$bus.emit('get-song-url', { id });
+      this.$bus.emit('get-song-details', { ids });
     },
     // 获取歌曲热门评论
     getHotComment() {
@@ -268,7 +268,7 @@ export default {
     },
     // tabs标签被选中触发
     tabClick(e) {
-      console.log(this.activeIndex, "this.activeIndex");
+      console.log(this.activeIndex, 'this.activeIndex');
       if (this.activeIndex == 2) {
       }
     },
@@ -277,6 +277,9 @@ export default {
 </script>
 
 <style scoped>
+.playlist-container {
+  padding: 0 15px;
+}
 .playlit-table th {
   text-align: left !important;
   height: 30px;

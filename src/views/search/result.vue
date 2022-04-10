@@ -100,13 +100,13 @@
 </template>
 
 <script>
-import { search } from "@/api/search";
+import { search } from '@/api/search';
 // import { getSongUrl } from "@/api/discovery";
 export default {
-  name: "result",
+  name: 'result',
   data() {
     return {
-      activeIndex: "1",
+      activeIndex: '1',
       pageSize: 10,
       pageIndex: 1,
       total: 0,
@@ -161,8 +161,8 @@ export default {
       //   this.$parent.musicUrl = url;
       // });
       const ids = list.map((x) => x.id);
-      this.$bus.emit("get-song-url", { id });
-      this.$bus.emit("get-song-details", { ids });
+      this.$bus.emit('get-song-url', { id });
+      this.$bus.emit('get-song-details', { ids });
     },
     handleCurrentChange(val) {
       this.pageIndex = val;
@@ -175,7 +175,7 @@ export default {
     // 跳转歌单详情页
     jumpPlayDetail(id) {
       this.$router.push({
-        path: "/playsDetail",
+        path: '/playsDetail',
         query: {
           id,
         },
@@ -184,7 +184,7 @@ export default {
     // 跳转MV详情页
     jumpMVDetail(id) {
       this.$router.push({
-        path: "/mvDetail",
+        path: '/mvDetail',
         query: {
           id,
         },
@@ -195,6 +195,10 @@ export default {
 </script>
 
 <style scoped>
+.result-container {
+  padding: 0 15px;
+  min-height: 81.5vh;
+}
 .el-table tbody tr,
 .el-table thead th {
   height: 40px;

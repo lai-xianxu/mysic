@@ -26,7 +26,9 @@
         </div>
         <div class="fsc mt20 cfff">
           <span>歌曲： {{ creatList[0].trackCount }}</span>
-          <span>播放： {{ creatList[0].playCount | playNumFilter }}</span>
+          <span class="ml20"
+            >播放： {{ creatList[0].playCount | playNumFilter }}</span
+          >
         </div>
       </div>
       <img :src="creatList[0].coverImgUrl" alt="" class="bg" />
@@ -45,7 +47,7 @@
         >
           <div class="img-wrap">
             <div class="desc-wrap">
-              <span class="desc">创建：{{ item.createTime | dataFormat }}</span>
+              <span class="desc">歌曲：{{ item.trackCount }}</span>
             </div>
             <div class="desc-wrap2 fec fs14">
               <i class="el-icon-headset mr5"></i>
@@ -75,7 +77,7 @@
             </div>
             <div class="song-wrap">
               <div class="song-name ellipsis2">{{ item.name }}</div>
-              <div class="singer">创建：{{ item.createTime | dataFormat }}</div>
+              <div class="singer">歌曲：{{ item.trackCount }}</div>
             </div>
           </div>
           <div class="fsc c999 fs14">
@@ -141,6 +143,9 @@ export default {
 </script>
 
 <style scoped>
+.discovery-container {
+  padding: 0 15px;
+}
 .discovery-container .top-card {
   padding: 20px;
   height: 200px;
@@ -168,14 +173,13 @@ export default {
 .discovery-container .top-card .content-wrap .tag {
   color: #dfac67;
   border: 1px solid #dfac67;
-  /* width: 100px; */
+  width: 120px;
   height: 30px;
   text-align: center;
   border-radius: 5px;
   font-size: 16px;
   line-height: 30px;
   cursor: pointer;
-  padding: 0 10px;
 }
 
 .discovery-container .top-card .content-wrap .title {
@@ -213,5 +217,8 @@ export default {
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
+}
+.discovery-container .recommend .items .item {
+  width: 194px;
 }
 </style>

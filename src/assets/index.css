@@ -5,7 +5,7 @@ html {
   padding: 0;
   font-weight: 400;
   font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB,
-    Microsoft YaHei, "\5FAE\8F6F\96C5\9ED1", Arial, sans-serif;
+    Microsoft YaHei, '\5FAE\8F6F\96C5\9ED1', Arial, sans-serif;
 }
 
 * {
@@ -183,8 +183,8 @@ ol {
 }
 
 .discovery-container .recommend .items .item img {
-  width: 200px;
-  height: 200px;
+  width: 194px;
+  height: 194px;
   border-radius: 5px;
 }
 
@@ -281,7 +281,7 @@ ol {
 }
 
 .discovery-container .news .items {
-  height: 500px;
+  /* height: 500px; */
   display: flex;
   flex-wrap: wrap;
   padding-left: 15px;
@@ -683,7 +683,7 @@ ol {
 }
 
 .mvs-container .filter-wrap > div span.title::before {
-  content: "", pos;
+  content: '', pos;
 }
 
 .mvs-container .filter-wrap > div ul {
@@ -701,9 +701,9 @@ ol {
 }
 
 .mvs-container .mvs .items .item {
-  width: 250px;
+  width: 249px;
   cursor: pointer;
-  margin-right: 25px;
+  margin-right: 20px;
   margin-bottom: 30px;
 }
 
@@ -834,7 +834,7 @@ ol {
 }
 
 .playlist-container .top-wrap .info-wrap .tag-wrap li:not(:last-child)::after {
-  content: "/";
+  content: '/';
   margin: 0 4px;
 }
 
@@ -1010,7 +1010,7 @@ ol {
 }
 
 .playlists-container .tab-container .tab-content .items .item {
-  width: 200px;
+  width: 192px;
   margin: 10px;
   position: relative;
   overflow: hidden;
@@ -1018,8 +1018,8 @@ ol {
 }
 
 .playlists-container .tab-container .tab-content .items .item img {
-  width: 200px;
-  height: 200px;
+  width: 192px;
+  height: 192px;
   border-radius: 5px;
 }
 
@@ -1329,10 +1329,13 @@ ol {
 .index-container .main {
   /* flex: 1; */
   /* overflow-y: scroll; */
-  padding: 10px 0 100px;
+  padding: 10px 0 80px;
+  background-color: #fff;
+  border: 1px solid #f1f1f1;
 }
 
 .index-container .main > div {
+  width: 1100px;
   max-width: 1100px;
   margin: 0 auto;
 }
@@ -1355,8 +1358,9 @@ ol {
   display: flex;
   justify-content: space-between;
   padding: 0 20px;
-  background-color: #f9f9f9;
+  background-color: #f1f1f1;
   width: 100%;
+  min-width: 1100px;
   z-index: 999;
 }
 
@@ -1424,7 +1428,7 @@ ol {
 }
 
 .top-container .left-box .history-wrapper .iconfont:hover {
-  background-color: #ebebeb;
+  background-color: #dbdbdb;
 }
 
 .top-container .right-box {
@@ -1445,13 +1449,13 @@ ol {
 }
 
 #app .index-container {
-  height: 100%;
+  min-height: 100%;
   padding-top: 60px;
-  padding-bottom: 60px;
+  /* padding-bottom: 60px; */
 }
 
 /* 修改loading加载时的颜色 */
-.el-loading-spinner i{
+.el-loading-spinner i {
   color: #c3473a;
   font-size: 50px;
 }
@@ -1460,7 +1464,8 @@ ol {
 * :focus {
   outline: none;
 }
-.el-input.is-active .el-input__inner, .el-input__inner:focus:focus {
+.el-input.is-active .el-input__inner,
+.el-input__inner:focus:focus {
   outline: none;
   border-color: #e08c82;
 }
