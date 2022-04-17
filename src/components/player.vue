@@ -333,24 +333,27 @@ export default {
       deep: true,
     },
   },
-  created() {
-    // 初始化赋值
-    // this.theUrl = this.$store.getters.curMusic
-    //   ? this.$store.getters.curMusic
-    //   : {};
-    // this.musicList = this.$store.getters.musicList
-    //   ? this.$store.getters.musicList
-    //   : [];
-    // console.log(1111111111);
-    // console.log(
-    //   this.$store,
-    //   "this.$store.state.music.curIcon45666666666666666"
-    // );
-    // this.curIcon = this.$store.state.music.curIcon;
-  },
+  // created() {
+  // 初始化赋值
+  // this.theUrl = this.$store.getters.curMusic
+  //   ? this.$store.getters.curMusic
+  //   : {};
+  // this.musicList = this.$store.getters.musicList
+  //   ? this.$store.getters.musicList
+  //   : [];
+  // console.log(1111111111);
+  // console.log(
+  //   this.$store,
+  //   "this.$store.state.music.curIcon45666666666666666"
+  // );
+  // this.curIcon = this.$store.state.music.curIcon;
+  // },
   mounted() {
     this.$bus.on('pause-play', () => {
       this.pausePlay();
+    });
+    this.$bus.on('start-play', () => {
+      this.startPlay();
     });
   },
   // beforeDestroy() {
@@ -367,11 +370,12 @@ export default {
     },
     // 跳转歌曲详情
     jumpSongDetail() {
+      if (this.$route.path == '/detail') return;
       this.$router.push({
         path: '/detail',
-        query: {
-          id: this.music.id,
-        },
+        // query: {
+        //   id: this.music.id,
+        // },
       });
     },
     // 歌曲播放完毕
@@ -528,8 +532,6 @@ export default {
     },
     // 播放跳转
     changeCurrentTime(index) {
-      console.log(this.$refs.audio.currentTime, 'this.$refs.audio.currentTime');
-      console.log(index, '5466666666');
       this.$refs.audio.currentTime = parseInt(
         (index / 100) * this.audio.maxTime
       );
@@ -568,7 +570,6 @@ export default {
       // 存状态，用作唱片旋转
       this.$store.commit('PLAYING', true);
 
-      console.log(res);
       this.audio.playing = true;
       this.audio.loading = false;
 
@@ -598,8 +599,6 @@ export default {
     // 当加载语音流元数据完成后，会触发该事件的回调函数
     // 语音元数据主要是语音的长度之类的数据
     onLoadedmetadata(res) {
-      console.log('loadedmetadata');
-      console.log(res);
       this.audio.waiting = false;
       this.audio.maxTime = parseInt(res.target.duration);
     },

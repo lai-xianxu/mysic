@@ -100,7 +100,12 @@
       <h3 class="title">相关推荐</h3>
       <div class="mvs">
         <div class="items">
-          <div class="item" v-for="item in simiMvList" :key="item.id">
+          <div
+            class="item"
+            v-for="item in simiMvList"
+            :key="item.id"
+            @click.stop="changeMv(item.id)"
+          >
             <div class="img-wrap">
               <img :src="item.cover + '?param=180y94'" alt="" />
               <span class="iconfont icon-play"></span>
@@ -147,6 +152,7 @@ export default {
       artist: {},
       hotComments: [],
       comments: [],
+      mvId: '',
     };
   },
   // created() {
@@ -161,10 +167,18 @@ export default {
     this.getMvComment();
   },
   methods: {
+    // 更换mv
+    changeMv(id) {
+      this.mvId = id;
+      this.getMvUrl();
+      this.getMvSimi();
+      this.getMvDetail();
+      this.getMvComment();
+    },
     // 获取mv地址
     getMvUrl() {
       getMvUrl({
-        id: this.$route.query.id,
+        id: this.mvId || this.$route.query.id,
       }).then((res) => {
         this.mvUrl = res.data.url;
       });
@@ -172,7 +186,7 @@ export default {
     // 获取相关mv
     getMvSimi() {
       getMvSimi({
-        mvid: this.$route.query.id,
+        mvid: this.mvId || this.$route.query.id,
       }).then((res) => {
         this.simiMvList = res.mvs;
       });
@@ -180,7 +194,7 @@ export default {
     // 获取mv信息
     getMvDetail() {
       getMvDetail({
-        mvid: this.$route.query.id,
+        mvid: this.mvId || this.$route.query.id,
       }).then((res) => {
         this.mvInfo = res.data;
         this.artistsId = res.data.artists[0].id;
@@ -198,7 +212,7 @@ export default {
     // 获取mv评论
     getMvComment() {
       getMvComment({
-        id: this.$route.query.id,
+        id: this.mvId || this.$route.query.id,
         limit: this.pageSize,
         offset: (this.pageIndex - 1) * this.pageSize,
       }).then((res) => {

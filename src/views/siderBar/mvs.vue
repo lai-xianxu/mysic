@@ -118,7 +118,6 @@ export default {
       this.$router.push(`/mv?id=${id}`);
     },
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
       this.pageIndex = val;
       this.getNewMv();
     },
@@ -135,7 +134,6 @@ export default {
         order: this.order,
         offset: (this.pageIndex - 1) * this.pageSize,
       }).then((res) => {
-        console.log(res, 'rrrr');
         this.mvList = res.data;
         this.total = res.count ? res.count : this.total;
       });

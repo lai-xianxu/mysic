@@ -120,7 +120,6 @@ export default {
     },
     // 获取歌单列表
     getPlaylist(item) {
-      console.log(item, 'iiiiiii');
       let cat = item || '全部';
       getPlaylist({
         cat,

@@ -333,7 +333,6 @@ export default {
     getBanner() {
       getBanner().then((res) => {
         this.bannerList = res.banners;
-        console.log(this.bannerList);
       });
     },
     // 点击banner

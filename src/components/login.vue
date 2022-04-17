@@ -318,7 +318,6 @@ export default {
             this.dialogVisible = false;
             this.sxRQCode = false;
             this.sqQRLoding = false;
-            console.log(res.cookie, 'cookieeeeeeeee');
             return;
           }
           if (this.timmer !== null) this.Cycle();

@@ -149,7 +149,6 @@ export default {
       // 获取轮播图
       getBanner().then((res) => {
         this.bannerList = res.banners;
-        console.log(this.bannerList);
       });
       // 获取推荐歌单
       personalized({ limit: 10 }).then((res) => {

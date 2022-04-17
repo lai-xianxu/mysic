@@ -94,7 +94,6 @@ export default {
     getNewSong(id) {
       const type = id || 0;
       getNewSong({ type }).then((res) => {
-        console.log(res, 'rrrrrrrr');
         this.newSongList = res.data;
       });
     },

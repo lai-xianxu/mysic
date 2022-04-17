@@ -266,7 +266,6 @@ export default {
     // 热门歌曲
     searchHot() {
       searchHot().then((res) => {
-        console.log(res, 'res');
         this.hotList = res.data;
       });
     },
@@ -279,7 +278,6 @@ export default {
       this.timer = setTimeout(() => {
         searchSuggest({ keywords: this.searchValue })
           .then((res) => {
-            console.log(res, 'rrrrrrr');
             this.searchSongList = (res.result && res.result.songs) || [];
             this.searchArtistsList = (res.result && res.result.artists) || [];
             this.searchPlayList = (res.result && res.result.playlists) || [];

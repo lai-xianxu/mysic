@@ -33,7 +33,11 @@
             所属专辑：<span class="c_main">{{ song.al && song.al.name }}</span>
           </p>
           <div class="fsc mt10">
-            <el-button type="danger" icon="el-icon-video-play" size="mini"
+            <el-button
+              type="danger"
+              icon="el-icon-video-play"
+              size="mini"
+              @click.stop="onPlay"
               >播放</el-button
             >
           </div>
@@ -147,7 +151,12 @@
         <h3 class="title">相关推荐</h3>
         <div class="mvs">
           <div class="items">
-            <div class="item" v-for="item in simiSong" :key="item.id">
+            <div
+              class="item"
+              v-for="item in simiSong"
+              :key="item.id"
+              @click.stop="changeSong(item.id)"
+            >
               <div class="img-wrap">
                 <img
                   v-if="item.album"
@@ -196,7 +205,21 @@ export default {
       playTotal: 0,
       playComments: [],
       simiSong: [],
+      songId: '',
     };
+  },
+  watch: {
+    '$store.getters.curMusic': {
+      handler(val) {
+        this.songId = val.id;
+        this.getSongDetail();
+        this.getlyric();
+        this.getCommitMusic();
+        this.getSimiSong();
+      },
+      immediate: true,
+      deep: true,
+    },
   },
   computed: {
     lyric() {
@@ -206,16 +229,35 @@ export default {
       return this.$store.getters.playing;
     },
   },
+  // mounted() {
+  //   this.getSongDetail();
+  //   this.getlyric();
+  //   this.getCommitMusic();
+  //   this.getSimiSong();
+  // },
   methods: {
+    // 更换mv
+    changeSong(id) {
+      this.songId = id;
+      this.$bus.emit('get-song-url', { id });
+      this.getSongDetail();
+      this.getlyric();
+      this.getCommitMusic();
+      this.getSimiSong();
+    },
+    // 播放
+    onPlay() {
+      this.$bus.emit('start-play');
+    },
     //   获取歌曲详情
     getSongDetail() {
-      getSongDetail({ ids: this.$route.query.id }).then((res) => {
+      getSongDetail({ ids: this.songId }).then((res) => {
         this.song = res.songs[0];
       });
     },
     // 获取歌曲歌词
     getlyric() {
-      getlyric({ id: this.$route.query.id }).then((res) => {
+      getlyric({ id: this.songId }).then((res) => {
         let arr = res.lrc.lyric.split('[');
         let arr2 = [];
         arr.forEach((e) => {
@@ -232,17 +274,15 @@ export default {
     onWatchCardHeight() {
       setTimeout(() => {
         this.btnLock = this.$refs.lyricRef.scrollHeight > 300;
-        console.log(this.btnLock);
       }, 50);
     },
     // 获取歌曲评论
     getCommitMusic() {
       getCommitMusic({
-        id: this.$route.query.id,
+        id: this.songId,
         limit: this.pageSize,
         offset: (this.pageIndex - 1) * this.pageSize,
       }).then((res) => {
-        console.log(res, 'mmmmm');
         this.playComments = res.comments;
         this.hotComments = res.hotComments;
         this.hotTotal = res.hotComments.length;
@@ -259,16 +299,10 @@ export default {
     },
     // 获取相似音乐
     getSimiSong() {
-      getSimiSong({ id: this.$route.query.id }).then((res) => {
+      getSimiSong({ id: this.songId }).then((res) => {
         this.simiSong = res.songs;
       });
     },
-  },
-  mounted() {
-    this.getSongDetail();
-    this.getlyric();
-    this.getCommitMusic();
-    this.getSimiSong();
   },
 };
 </script>

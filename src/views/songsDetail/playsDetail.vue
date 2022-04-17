@@ -274,11 +274,11 @@ export default {
       });
     },
     // tabs标签被选中触发
-    tabClick(e) {
-      console.log(this.activeIndex, 'this.activeIndex');
-      if (this.activeIndex == 2) {
-      }
-    },
+    // tabClick(e) {
+    //   console.log(this.activeIndex, 'this.activeIndex');
+    //   if (this.activeIndex == 2) {
+    //   }
+    // },
     // 跳转mv
     jumpMV(id) {
       this.$router.push({
