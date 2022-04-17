@@ -44,6 +44,30 @@
           >
         </div>
       </el-form-item>
+      <el-form-item>
+        <el-checkbox v-model="ruleForm.fwCheck"></el-checkbox>
+        <span class="ml10">
+          同意<el-link
+            :underline="false"
+            type="primary"
+            target="_block"
+            href="https://st.music.163.com/official-terms/service"
+            >《服务条款》</el-link
+          ><el-link
+            :underline="false"
+            type="primary"
+            target="_block"
+            href="https://st.music.163.com/official-terms/privacy "
+            >《隐私政策》</el-link
+          ><el-link
+            :underline="false"
+            type="primary"
+            target="_block"
+            href="https://st.music.163.com/official-terms/children"
+            >《儿童隐私政策》</el-link
+          >
+        </span>
+      </el-form-item>
     </el-form>
     <span v-if="!qrCodeLock" slot="footer" class="dialog-footer">
       <div class="fsbc">
@@ -118,11 +142,19 @@ export default {
         password: '',
         checked: true,
         captcha: '',
+        fwCheck: false,
       },
       rules: {
         name: [{ required: true, message: '请输入手机号', trigger: 'blur' }],
         password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
         captcha: [{ required: true, message: '请输入验证码', trigger: 'blur' }],
+        fwCheck: [
+          {
+            required: true,
+            message: '请先勾选同意《服务条款》、《隐私政策》、《儿童隐私政策》',
+            trigger: 'change',
+          },
+        ],
       },
       qrKey: '',
       qrImg: '',
@@ -184,6 +216,12 @@ export default {
     onLogin() {
       this.$refs.ruleForm.validate(async (valid) => {
         if (valid) {
+          if (!this.ruleForm.fwCheck) {
+            this.$message.warning(
+              '请先勾选同意《服务条款》、《隐私政策》、《儿童隐私政策》'
+            );
+            return;
+          }
           const data = {
             phone: this.ruleForm.name,
           };
@@ -202,7 +240,6 @@ export default {
           }
           LoginPhone(data)
             .then((res) => {
-              console.log(res, 'rrrrrrrrrr');
               // 登录成功保存token，用于身份验证
               //       window.localStorage.setItem('token',res.data.data.token);
               if (res.code != 200) {

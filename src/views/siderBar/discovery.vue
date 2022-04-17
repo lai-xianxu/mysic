@@ -2,7 +2,15 @@
   <div class="discovery-container">
     <!-- 推荐歌单 -->
     <div class="recommend">
-      <h3 class="title">推荐歌单</h3>
+      <h3 class="title fsbc">
+        <span>推荐歌单</span>
+        <el-link
+          :underline="false"
+          class="fs14 c999 mr20"
+          @click.stop="jump('/playlists')"
+          >更多</el-link
+        >
+      </h3>
       <div class="items">
         <div
           class="item"
@@ -28,7 +36,15 @@
 
     <!-- 最新音乐 -->
     <div class="news">
-      <h3 class="title">最新音乐</h3>
+      <h3 class="title fsbc">
+        <span>发现音乐</span>
+        <el-link
+          :underline="false"
+          class="fs14 c999 mr20"
+          @click.stop="jump('/songs')"
+          >更多</el-link
+        >
+      </h3>
       <div class="items">
         <div
           class="item"
@@ -59,7 +75,15 @@
     </div>
     <!-- 推荐MV -->
     <div class="mvs">
-      <h3 class="title">推荐MV</h3>
+      <h3 class="title fsbc">
+        <span>推荐MV</span>
+        <el-link
+          :underline="false"
+          class="fs14 c999 mr20"
+          @click.stop="jump('/mvs')"
+          >更多</el-link
+        >
+      </h3>
       <div class="items">
         <div
           class="item"
@@ -171,6 +195,12 @@ export default {
         query: {
           id,
         },
+      });
+    },
+    // 跳转
+    jump(e) {
+      this.$router.push({
+        path: e,
       });
     },
   },

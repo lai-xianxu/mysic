@@ -116,3 +116,12 @@ export function getSimiSong(data){
         params: data
     })
 }
+
+// 喜欢音乐
+export function setLike(data) {
+    return request({
+        url: `/like?timestamp=${Date.now()}`,
+        method: 'post',
+        data
+    })
+}

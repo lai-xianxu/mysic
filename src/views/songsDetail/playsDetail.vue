@@ -23,7 +23,10 @@
             }}创建</span
           >
         </div>
-        <div class="play-wrap">
+        <div
+          class="play-wrap cpr"
+          @click.stop="getSongUrl(songList[0].id, songList)"
+        >
           <span class="iconfont icon-circle-play"></span>
           <span class="text">播放全部</span>
         </div>
@@ -68,7 +71,11 @@
                 <div class="song-wrap">
                   <div class="name-wrap wsnw">
                     <span>{{ item.name }}</span>
-                    <span class="iconfont icon-mv"></span>
+                    <span
+                      class="iconfont icon-mv"
+                      v-if="item.mv > 0"
+                      @click.stop="jumpMV(item.mv)"
+                    ></span>
                   </div>
                   <!-- 二级标题 -->
                   <span>{{ item.alia[0] }}</span>
@@ -271,6 +278,15 @@ export default {
       console.log(this.activeIndex, 'this.activeIndex');
       if (this.activeIndex == 2) {
       }
+    },
+    // 跳转mv
+    jumpMV(id) {
+      this.$router.push({
+        path: '/mvDetail',
+        query: {
+          id,
+        },
+      });
     },
   },
 };

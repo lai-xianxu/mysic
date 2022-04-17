@@ -1,6 +1,6 @@
 <template>
   <!-- v-loading="audio.waiting" -->
-  <div class="di main-wrap fcc" @click.self="jumpSongDetail">
+  <div class="di main-wrap fcc" @click="jumpSongDetail">
     <!-- 这里设置了ref属性后，在vue组件中，就可以用this.$refs.audio来访问该dom元素 -->
     <audio
       v-if="music.src && playLock"
@@ -81,9 +81,20 @@
       <!-- 右侧 -->
       <div class="fsc c999">
         <!-- 喜欢 -->
-        <el-tooltip class="item" effect="dark" content="喜欢" placement="top">
-          <i class="iconfont icon-jushoucang mr30 hover"></i>
-        </el-tooltip>
+        <div class="like">
+          <el-tooltip class="item" effect="dark" content="喜欢" placement="top">
+            <i
+              class="iconfont icon-jushoucang mr30 hover"
+              v-if="!isLick"
+              @click.stop="onSetLike"
+            ></i>
+            <i
+              class="iconfont icon-jushoucang mr30 hover c_red"
+              v-else
+              @click.stop="onSetLike"
+            ></i>
+          </el-tooltip>
+        </div>
         <!-- 下载 -->
         <el-tooltip class="item" effect="dark" content="下载" placement="top">
           <a
@@ -124,74 +135,79 @@
           ></i>
         </el-tooltip>
         <!-- 列表 -->
-        <el-popover
-          placement="top"
-          width="520"
-          trigger="click"
-          offset="200"
-          v-model="popListShow"
-        >
-          <el-empty
-            :image-size="130"
-            v-if="!musicList.length"
-            description="当前任务队列为空，快快去添加吧~"
-          ></el-empty>
-          <table class="w100" v-else>
-            <thead class="w100 mb10">
-              <tr class="w100">
-                <td class="fs16 c333 bold">
-                  播放列表 <span class="c999 fs12">共9首</span>
-                </td>
-                <td></td>
-                <td class="tar fec">
-                  <div @click.stop="clearList">
-                    <i class="iconfont icon-shanchu mr5"></i>
-                    <span>清空列表</span>
-                  </div>
-                  <i
-                    class="iconfont icon-shanchu1 ml15"
-                    @click.stop="popListShow = false"
-                  ></i>
-                </td>
-              </tr>
-            </thead>
-
-            <tbody class="w100 tabdy_box">
-              <tr
-                class="w100 th_tr"
-                v-for="(item, i) in musicList"
-                :class="{ th_tr_active: activeMusic == i }"
-                :key="item.id"
-                @click.stop="handlePlay(item.id)"
-              >
-                <td class="w250 ellipsis1">
-                  <i>{{ i + 1 }}</i>
-                  <span class="ml5 c000">{{ item.title }}</span>
-                </td>
-                <td class="tac">{{ item.artist }}</td>
-                <td class="tar bold dt">
-                  {{ item.duration | DurationFilter }}
-                </td>
-                <td class="icon tar">
-                  <i class="iconfont icon-jushoucang fs14 mr15"></i>
-                  <i
-                    class="iconfont icon-shanchu fs14 mr15"
-                    @click.stop="delCurSong(item.id)"
-                  ></i>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <el-tooltip
-            slot="reference"
-            class="item"
-            effect="dark"
-            content="列表"
+        <div @click.stop>
+          <el-popover
             placement="top"
+            width="520"
+            trigger="click"
+            offset="200"
+            v-model="popListShow"
           >
-            <i class="iconfont icon-liebiao mr30 hover"></i>
-          </el-tooltip>
-        </el-popover>
+            <el-empty
+              :image-size="130"
+              v-if="!musicList.length"
+              description="当前任务队列为空，快快去添加吧~"
+            ></el-empty>
+            <table class="w100" v-else>
+              <thead class="w100 mb10">
+                <tr class="w100">
+                  <td class="fs16 c333 bold">
+                    播放列表 <span class="c999 fs12">共9首</span>
+                  </td>
+                  <td></td>
+                  <td class="tar fec">
+                    <div @click.stop="clearList">
+                      <i class="iconfont icon-shanchu mr5"></i>
+                      <span>清空列表</span>
+                    </div>
+                    <i
+                      class="iconfont icon-shanchu1 ml15"
+                      @click.stop="popListShow = false"
+                    ></i>
+                  </td>
+                </tr>
+              </thead>
+
+              <tbody class="w100 tabdy_box">
+                <tr
+                  class="w100 th_tr"
+                  v-for="(item, i) in musicList"
+                  :class="{ th_tr_active: activeMusic == i }"
+                  :key="item.id"
+                  @click.stop="handlePlay(item.id)"
+                >
+                  <td class="w250 ellipsis1">
+                    <i>{{ i + 1 }}</i>
+                    <span class="ml5 c000">{{ item.title }}</span>
+                  </td>
+                  <td class="tac">{{ item.artist }}</td>
+                  <td class="tar bold dt">
+                    {{ item.duration | DurationFilter }}
+                  </td>
+                  <td class="icon tar">
+                    <i
+                      class="iconfont icon-jushoucang fs14 mr15"
+                      @click.stop="onSetLike"
+                    ></i>
+                    <i
+                      class="iconfont icon-shanchu fs14 mr15"
+                      @click.stop="delCurSong(item.id)"
+                    ></i>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <el-tooltip
+              slot="reference"
+              class="item"
+              effect="dark"
+              content="列表"
+              placement="top"
+            >
+              <i class="iconfont icon-liebiao mr30 hover"></i>
+            </el-tooltip>
+          </el-popover>
+        </div>
 
         <!-- 音量 -->
         <div class="fsc">
@@ -218,6 +234,7 @@
 </template>
 
 <script>
+import { setLike } from '@/api/detail';
 import { mapGetters, mapState } from 'vuex';
 function realFormatSecond(second) {
   var secondType = typeof second;
@@ -293,6 +310,7 @@ export default {
         loop: 'icon-24gl-repeat2', // 顺序
       },
       playLock: true,
+      isLick: false,
     };
   },
   computed: {
@@ -330,7 +348,23 @@ export default {
     // );
     // this.curIcon = this.$store.state.music.curIcon;
   },
+  mounted() {
+    this.$bus.on('pause-play', () => {
+      this.pausePlay();
+    });
+  },
+  // beforeDestroy() {
+  //   this.$bus.off('pause-play', this.pausePlay);
+  // },
   methods: {
+    // 喜欢音乐
+    onSetLike() {
+      this.$message.warning('该功能尚未开启');
+      // setLike({ id: this.music.id, like: true }).then(() => {
+      //   this.isLick = true;
+      //   this.$message.success('已添加至喜欢');
+      // });
+    },
     // 跳转歌曲详情
     jumpSongDetail() {
       this.$router.push({
@@ -705,5 +739,8 @@ table {
 }
 .hover:hover {
   color: #e08c82;
+}
+.c_red {
+  color: red;
 }
 </style>

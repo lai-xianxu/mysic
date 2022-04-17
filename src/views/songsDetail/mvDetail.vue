@@ -149,16 +149,18 @@ export default {
       comments: [],
     };
   },
+  // created() {
+
+  // },
   mounted() {
+    // 当进入mv详情页，自动关闭正在播放的歌曲
+    this.$bus.emit('pause-play');
     this.getMvUrl();
     this.getMvSimi();
     this.getMvDetail();
     this.getMvComment();
   },
   methods: {
-    handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
-    },
     // 获取mv地址
     getMvUrl() {
       getMvUrl({

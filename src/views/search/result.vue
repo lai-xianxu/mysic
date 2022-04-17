@@ -26,7 +26,11 @@
                 <div class="song-wrap">
                   <div class="name-wrap">
                     <span>{{ item.name }}</span>
-                    <span v-if="item.mvid != 0" class="iconfont icon-mv"></span>
+                    <span
+                      v-if="item.mvid != 0"
+                      class="iconfont icon-mv"
+                      @click.stop="jumpMVDetail(item.mvid)"
+                    ></span>
                   </div>
                   <!-- 二级标题 -->
                   <span v-if="item.alias.length">{{ item.alias[0] }}</span>

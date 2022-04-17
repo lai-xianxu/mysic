@@ -223,6 +223,7 @@ export default {
             arr2.push(e.substring(e.indexOf(']') + 1));
           }
         });
+        // this.ric = arr2.join('').replace(new RegExp(/( )/g), '');
         this.ric = arr2.join('');
         this.onWatchCardHeight();
       });
