@@ -97,6 +97,7 @@
       <div class="main" :class="{ min_main: pathStatus }">
         <router-view></router-view>
       </div>
+      <img src="@/assets/qr-code.jpg" alt="" class="share-qr-code" >
     </div>
 
     <!-- 底部播放控件 -->
@@ -476,5 +477,11 @@ export default {
 }
 .active {
   color: #dd6d60;
+}
+.share-qr-code {
+  position: fixed;
+  right: 0;
+  top: 370px;
+  width: 400px;
 }
 </style>
