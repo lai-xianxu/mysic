@@ -21,5 +21,5 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ### 记载学习地址
 Api: https://github.com/Binaryify/NeteaseCloudMusicApi<br>
 Api文档：https://neteasecloudmusicapi.vercel.app/#/?id=neteasecloudmusicapi<br>
-借鉴项目：https://www.bookbook.cc/music/#/discovery<br>
+借鉴项目：https://www.bookbook.cc/music/#/discovery <br>
 学习地址：https://www.bilibili.com/video/BV1RE411W776/
